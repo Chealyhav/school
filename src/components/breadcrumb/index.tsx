@@ -5,7 +5,7 @@ export const Breadcrumb = () => {
   const { breadcrumbs } = useBreadcrumb();
 
   return (
-    <ul className="breadcrumb">
+    <ul className="breadcrumb py-4 bg-slate-500  sticky top-0 ">
       {breadcrumbs.map((breadcrumb) => {
         return (
           <li key={`breadcrumb-${breadcrumb.label}`}>

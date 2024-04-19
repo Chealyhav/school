@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { GetManyResponse, useMany, useNavigation } from "@refinedev/core";
 import { useTable } from "@refinedev/react-table";
 import { ColumnDef, flexRender } from "@tanstack/react-table";
@@ -140,9 +141,9 @@ export const BlogPostList = () => {
         }}
       >
         <h1>{"List"}</h1>
-        <button onClick={() => create("blog_posts")}>{"Create"}</button>
+        <Button onClick={() => create("blog_posts")}>{"Create"}</Button>
       </div>
-      <div style={{ maxWidth: "100%", overflowY: "scroll" }}>
+      <div className="w-full overflow-y-auto">
         <table>
           <thead>
             {getHeaderGroups().map((headerGroup) => (

@@ -1,10 +1,10 @@
 import {
   Authenticated,
   ErrorComponent,
-  GitHubBanner,
+  HttpError,
   Refine,
 } from "@refinedev/core";
-import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
+import {  DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
 import routerBindings, {
@@ -13,7 +13,6 @@ import routerBindings, {
   NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
-import dataProvider from "@refinedev/simple-rest";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { authProvider } from "./authProvider";
@@ -30,21 +29,61 @@ import {
   CategoryList,
   CategoryShow,
 } from "./pages/categories";
-import { ForgotPassword } from "./pages/forgotPassword";
-import { Login } from "./pages/login";
-import { Register } from "./pages/register";
+import { ContactPage } from "./pages/home/contact";
+import { Home } from "./pages/admin-page/home";
+import { List } from "./pages/admin-page/home/list";
+import dataProvider from "@refinedev/simple-rest";
+// import { Create } from "./pages/admin-page/home/create";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+import { Edit } from "./pages/admin-page/home/edit";
+import axios from "axios";
+import { Create } from "./pages/admin-page/home/create";
+import { notificationProvider } from "./lib/notification";
+import { LayoutHomepage } from "./components/school-web/layout";
+
+
+// initialize axios
+export const API_URL = "http://127.0.0.1:8000/";
+export const axiosInstance = axios.create();
+axiosInstance.defaults.baseURL = API_URL;
+
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const customError: HttpError = {
+      ...error,
+      message: error.response?.data?.message,
+      statusCode: error.response?.status,
+    };
+
+    return Promise.reject(customError);
+  }
+);
 function App() {
   return (
     <BrowserRouter>
-      <GitHubBanner />
       <RefineKbarProvider>
         <DevtoolsProvider>
           <Refine
-            dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+            dataProvider={dataProvider("http://127.0.0.1:8000/collection/api")}
             routerProvider={routerBindings}
             authProvider={authProvider}
+            notificationProvider={notificationProvider}
             resources={[
+              {
+                name: "test",
+                list: "/test/list",
+                create: "/test/create",
+                edit: "/test/edit/:id",
+                show: "/homepage",
+                meta: {
+                  canDelete: true,
+                },
+              },
               {
                 name: "blog_posts",
                 list: "/blog-posts",
@@ -70,7 +109,6 @@ function App() {
               syncWithLocation: true,
               warnWhenUnsavedChanges: true,
               useNewQueryKeys: true,
-              projectId: "oB4tCr-p2ort8-9b93ZZ",
             }}
           >
             <Routes>
@@ -78,18 +116,39 @@ function App() {
                 element={
                   <Authenticated
                     key="authenticated-inner"
-                    fallback={<CatchAllNavigate to="/login" />}
+                    fallback={<CatchAllNavigate to="/home" />}
                   >
                     <Layout>
                       <Outlet />
+                      <ToastContainer
+                        position="top-right"
+                        autoClose={4000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="colored"
+                        className="pr-4 w-80"
+                      />
                     </Layout>
                   </Authenticated>
                 }
               >
                 <Route
                   index
-                  element={<NavigateToResource resource="blog_posts" />}
+                  element={<NavigateToResource resource="test" />}
                 />
+                <Route path="/test">
+                  <Route index element={<Home />} />
+                  <Route path="list" element={<List />} />
+                  <Route path="create" element={<Create />} />
+                  <Route path="edit/:id" element={<Edit />} />
+                  <Route path="show/:id" element={<BlogPostShow />} />
+                </Route>
+
                 <Route path="/blog-posts">
                   <Route index element={<BlogPostList />} />
                   <Route path="create" element={<BlogPostCreate />} />
@@ -114,9 +173,12 @@ function App() {
                   </Authenticated>
                 }
               >
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/home">
+                  <Route index element={<LayoutHomepage />} />
+                  <Route path="contact" element={<ContactPage />} />
+                  <Route path="contact" element={<ContactPage />} />
+                </Route>
+                <Route path="/home" element={<LayoutHomepage />} />
               </Route>
             </Routes>
 

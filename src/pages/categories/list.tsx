@@ -89,7 +89,7 @@ export const CategoryList = () => {
         <h1>List</h1>
         <button onClick={() => create("categories")}>Create</button>
       </div>
-      <div style={{ maxWidth: "100%", overflowY: "scroll" }}>
+      <div className="w-full h-full">
         <table>
           <thead>
             {getHeaderGroups().map((headerGroup) => (
