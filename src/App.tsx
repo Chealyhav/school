@@ -4,7 +4,7 @@ import {
   HttpError,
   Refine,
 } from "@refinedev/core";
-import {  DevtoolsProvider } from "@refinedev/devtools";
+import { DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
 import routerBindings, {
@@ -15,21 +15,8 @@ import routerBindings, {
 } from "@refinedev/react-router-v6";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { authProvider } from "./authProvider";
-import { Layout } from "./components/layout";
-import {
-  BlogPostCreate,
-  BlogPostEdit,
-  BlogPostList,
-  BlogPostShow,
-} from "./pages/blog-posts";
-import {
-  CategoryCreate,
-  CategoryEdit,
-  CategoryList,
-  CategoryShow,
-} from "./pages/categories";
-import { ContactPage } from "./pages/home/contact";
+import { Layout } from "./components/admin/layout";
+
 import { Home } from "./pages/admin-page/home";
 import { List } from "./pages/admin-page/home/list";
 import dataProvider from "@refinedev/simple-rest";
@@ -42,7 +29,11 @@ import axios from "axios";
 import { Create } from "./pages/admin-page/home/create";
 import { notificationProvider } from "./lib/notification";
 import { LayoutHomepage } from "./components/school-web/layout";
-
+import { authProvider } from "./lib/authProvider";
+import { AboutPage } from "./pages/web-page/abouts";
+import { ContactPage } from "./pages/web-page/contact";
+import { HomePage } from "./pages/web-page/home";
+import { ClassesPage } from "./pages/web-page/classes";
 
 // initialize axios
 export const API_URL = "http://127.0.0.1:8000/";
@@ -74,36 +65,37 @@ function App() {
             authProvider={authProvider}
             notificationProvider={notificationProvider}
             resources={[
+              // {
+              //   name: "image",
+              //   list: "/test/list",
+              //   create: "/test/create",
+              //   edit: "/test/edit/:id",
+              //   show: "/homepage",
+              //   meta: {
+              //     canDelete: true,
+              //   },
+              // },
               {
-                name: "test",
-                list: "/test/list",
-                create: "/test/create",
+                name: "image",
+                list: "/image/list",
+                create: "/image/create",
                 edit: "/test/edit/:id",
                 show: "/homepage",
                 meta: {
                   canDelete: true,
                 },
               },
-              {
-                name: "blog_posts",
-                list: "/blog-posts",
-                create: "/blog-posts/create",
-                edit: "/blog-posts/edit/:id",
-                show: "/blog-posts/show/:id",
-                meta: {
-                  canDelete: true,
-                },
-              },
-              {
-                name: "categories",
-                list: "/categories",
-                create: "/categories/create",
-                edit: "/categories/edit/:id",
-                show: "/categories/show/:id",
-                meta: {
-                  canDelete: true,
-                },
-              },
+              // {
+              //   name: "about",
+              //   list: "/test/list",
+              //   create: "/about/create",
+              //   edit: "/test/edit/:id",
+              //   show: "/homepage",
+              //   meta: {
+              //     canDelete: true,
+              //   },
+              // },
+              
             ]}
             options={{
               syncWithLocation: true,
@@ -112,6 +104,19 @@ function App() {
             }}
           >
             <Routes>
+              <Route
+                element={
+                  <LayoutHomepage>
+                    <Outlet />
+                  </LayoutHomepage>
+                }
+              >
+                <Route index element={<HomePage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/classes" element={<ClassesPage />} />
+                <Route path="*" element={<ErrorComponent />} />
+              </Route>
               <Route
                 element={
                   <Authenticated
@@ -137,29 +142,26 @@ function App() {
                   </Authenticated>
                 }
               >
-                <Route
-                  index
-                  element={<NavigateToResource resource="test" />}
-                />
-                <Route path="/test">
-                  <Route index element={<Home />} />
+
+
+        
+                <Route path="/image">
+                  <Route index element={<List />} />
                   <Route path="list" element={<List />} />
                   <Route path="create" element={<Create />} />
                   <Route path="edit/:id" element={<Edit />} />
-                  <Route path="show/:id" element={<BlogPostShow />} />
                 </Route>
-
-                <Route path="/blog-posts">
-                  <Route index element={<BlogPostList />} />
-                  <Route path="create" element={<BlogPostCreate />} />
-                  <Route path="edit/:id" element={<BlogPostEdit />} />
-                  <Route path="show/:id" element={<BlogPostShow />} />
-                </Route>
-                <Route path="/categories">
-                  <Route index element={<CategoryList />} />
-                  <Route path="create" element={<CategoryCreate />} />
-                  <Route path="edit/:id" element={<CategoryEdit />} />
-                  <Route path="show/:id" element={<CategoryShow />} />
+                <Route path="*" element={<ErrorComponent />} />
+        
+                <Route
+                  index
+                  element={<NavigateToResource resource="image" />}
+                />
+                <Route path="/image">
+                  <Route index element={<List />} />
+                  <Route path="list" element={<List />} />
+                  <Route path="create" element={<Create />} />
+                  <Route path="edit/:id" element={<Edit />} />
                 </Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
@@ -173,12 +175,6 @@ function App() {
                   </Authenticated>
                 }
               >
-                <Route path="/home">
-                  <Route index element={<LayoutHomepage />} />
-                  <Route path="contact" element={<ContactPage />} />
-                  <Route path="contact" element={<ContactPage />} />
-                </Route>
-                <Route path="/home" element={<LayoutHomepage />} />
               </Route>
             </Routes>
 

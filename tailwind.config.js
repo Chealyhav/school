@@ -80,5 +80,45 @@ export default {
       },
     },
   },
-  plugins: [],
+  corePlugins: {
+    aspectRatio: false,
+  },
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+    // require('tailwindcss-clip-path'),
+    // function ({ addUtilities }) {
+    //   addUtilities({
+    //     '.clip-cut-lg': {
+    //       'clip-path': 'polygon(95% 0, 100% 50%, 100% 100%, 0 99%, 0 0)',
+    //     },
+    //     '.clip-cut-md': {
+    //       'clip-path': 'polygon(calc(100% - 50px) 0, 100% calc(100% - 176px), 100% 100%, 0 100%, 0 0)',
+    //     },
+    //     '.clip-cut-sm': {
+    //       'clip-path': 'polygon(calc(100% - 30px) 0, 100% 6%, 100% 100%, 0 100%, 0 0)',
+    //     },
+    //     '.clip-contact': {
+    //       'clip-path': 'polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%)',
+    //     },
+    //     '.clip-cut': {
+    //       'clip-path': 'polygon(0 0, 80% 0, 100% 10%, 100% 100%, 0 100%, 0 0)',
+    //     },
+    //     '.clip-cut-tri': {
+    //       'clip-path': 'polygon(0 calc(100% - 22px), 100% 1%, 100% 100%)',
+    //     },
+    //     '.clip-cut-tri-sm': {
+    //       'clip-path': 'polygon(0 calc(100% - 17px), 100% 1%, 100% 100%)',
+    //     },
+    //     '.AccordionContent': {
+    //       overflow: 'hidden',
+    //     },
+    //     '.AccordionContent[data-state="open"]': {
+    //       animation: 'slideDown 300ms ease-out',
+    //     },
+    //     '.AccordionContent[data-state="closed"]': {
+    //       animation: 'slideUp 300ms ease-out',
+    //     }
+    //   })
+    // }
+  ],
 }

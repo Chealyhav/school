@@ -8,7 +8,7 @@ export const authProvider: AuthBindings = {
       localStorage.setItem(TOKEN_KEY, username);
       return {
         success: true,
-        redirectTo: "/",
+        redirectTo: "/image",
       };
     }
 

@@ -4,11 +4,13 @@ import { Input } from "@/components/ui/input";
 import {
   GetManyResponse,
   HttpError,
+  useDelete,
   useMany,
   useNavigation,
   useOne,
 } from "@refinedev/core";
 import UploadImage from "./file";
+import { Link } from "react-router-dom";
 
 export interface Person {
   id: number;
@@ -20,13 +22,24 @@ export interface Person {
   contact: string;
   active: boolean;
   description: string;
+  image:string;
+  title:string;
 }
 
 export const List = () => {
   const { data, isLoading, isError } = useOne<Person, HttpError>({
-    resource: "test",
-    id: 10,
+    resource: "image",
+    id: 6,
   });
+
+  const { data} = useDelete<Person, HttpError>({
+    resource: "image",
+    id: 6,
+  });
+  
+  const DeleteImage =()=>{
+    
+  }
   console.log(data?.data.avatar);
 
   if (isLoading) {
@@ -36,18 +49,16 @@ export const List = () => {
   if (isError) {
     return <div>Something went wrong!</div>;
   }
-
+ 
   return (
     <div>
+      <Button>Delete</Button>
+      <Button><Link to="/image/create">create</Link></Button>
       <UploadImage/>
       <Input  aria-braillelabel="" placeholder="input text" type="text" className="w-1/2"/>
-      <div className="border">{data?.data.id}</div>
-      <img src={`${API_URL}${data.data.avatar}`} alt="" className="w-20 h-20 bg-red-400" />
-      <div className="border">{data.data.first_name}</div>
-      <div className="border">{data.data.last_name}</div>
-      <div className="border">{data.data.contact}</div>
-      <div className="border">{data.data.dob}</div>
-      <div className="border">{data.data.gender}</div>
+      <div className="border">{data?.data.title}</div>
+      <img src={`${API_URL}${data.data.image}`} alt="" className="w-20 h-20 bg-red-400" />
+  
     </div>
   );
 };

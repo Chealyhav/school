@@ -103,7 +103,7 @@
 }
 
 
-
+/* 
 body {
   margin: 0px;
 }
@@ -163,7 +163,7 @@ td:last-child {
   border-bottom: 1px solid lightgray;
 } */
 
-.breadcrumb a {
+/* .breadcrumb a {
   color: blue;
   text-decoration: none;
 }
@@ -191,4 +191,4 @@ td:last-child {
 
 .menu ul {
   padding-left: 16px;
-}
+}  */
