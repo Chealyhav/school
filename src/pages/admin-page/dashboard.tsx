@@ -1,4 +1,4 @@
-export const HomePage:React.FC =()=>{
+export const Dashboard:React.FC =()=>{
     
     return(
         <div>

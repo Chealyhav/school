@@ -1,14 +1,18 @@
 import { PropsWithChildren, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { useLogout, useMenu } from "@refinedev/core";
+import { useGetIdentity, useLogout, useMenu, useOne } from "@refinedev/core";
 import { Button } from "@/components/ui/button";
+import { User } from "@/interface/user";
+import { AcademicCapIcon } from "@heroicons/react/24/solid";
 
 export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
+  // const { data: identity } = useGetIdentity<User>();
   const { mutate: logout } = useLogout();
   const { menuItems } = useMenu();
   const [showSideBar, setShowSideBar] = useState(true);
   const [showDropDown, setShowDropDown] = useState(false);
-
+  const [showDropDownmenu, setShowDropDownmenu] = useState(false);
+  const Username = localStorage.getItem("username");
   const toggleSideBar = () => {
     setShowSideBar(!showSideBar);
   };
@@ -16,7 +20,9 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   const toggleDrop = () => {
     setShowDropDown(!showDropDown);
   };
-
+  const toggleDropMenu = () => {
+    setShowDropDownmenu(!showDropDownmenu);
+  };
   return (
     <div className="h-screen w-screen">
       <div className="flex h-full">
@@ -31,23 +37,59 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
           </div>
           <div className="bg-gray-800 h-[calc(100%-50px)] px-[20px] py-[20px]">
             <div className="flex flex-col justify-between h-full">
-              <div className="flex flex-col space-y-[10px]">
-                {menuItems.map((item) => (
+              <div className="flex flex-col space-y-2">
+                {/* {menuItems.map((item) => (
                   <li key={item.key}>
                     <NavLink to={item.route ?? "/"}>{item.label}</NavLink>
                   </li>
-                ))}
-                <Button onClick={() => logout()}>Logout</Button>
-              </div>
-              <div className="h-[50px]">
-                <div>
-                  <Link
-                    to="/setting"
-                    className="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300 hover:text-gray-800 transition duration-400 ease-in-out"
-                  >
-                    {/* Add SVG code here */}
-                    Setting
-                  </Link>
+                ))} */}
+                <ul className="space-y-2">
+                  <li className="flex justify-start items-center space-x-2">
+                    <AcademicCapIcon className="size-4" />
+                    <Link to="dashboard">Dashboard</Link>
+                  </li>
+                  <li className="flex justify-start items-center space-x-2">
+                    <AcademicCapIcon className="size-4" />
+                    <Link to="student">Student</Link>
+                  </li>
+                </ul>
+                <li className="flex justify-start items-center space-x-2">
+                  <AcademicCapIcon className="size-4" />
+                  <Link to="teacher">Teacher</Link>
+                </li>
+                <li className="flex justify-start items-center space-x-2">
+                  <AcademicCapIcon className="size-4" />
+                  <Link to="classes">Classes</Link>
+                </li>
+
+                <div className="py-4">
+                  <h2 onClick={toggleDropMenu}>WebSite</h2>
+                  <div className="bg-white h-0.5 w-full rounded-full"></div>
+                  {showDropDownmenu && (
+                    <ul className="space-y-2 pt-2">
+                      <li className="flex justify-start items-center space-x-2">
+                        <AcademicCapIcon className="size-4" />
+                        <Link to="bannerhome">Banner Home</Link>
+                      </li>
+                      <li className="flex justify-start items-center space-x-2">
+                        <AcademicCapIcon className="size-4" />
+                        <Link to="banner">Banner</Link>
+                      </li>
+                      <li className="flex justify-start items-center space-x-2">
+                        <AcademicCapIcon className="size-4" />
+                        <Link to="about">About Us</Link>
+                      </li>
+                      <li className="flex justify-start items-center space-x-2">
+                        <AcademicCapIcon className="size-4" />
+                        <Link to="contact">Contact</Link>
+                      </li>
+                      <li className="flex justify-start items-center space-x-2">
+                        <AcademicCapIcon className="size-4" />
+                        <Link to="blog">Blog</Link>
+                      </li>
+                    </ul>
+                  )}
+                  <div className="">xx</div>
                 </div>
               </div>
             </div>
@@ -81,7 +123,7 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
                     alt=""
                   />
                   <div className="font-semibold dark:text-dark text-left">
-                    <div>Chea Lyhav</div>
+                    <div>{Username}</div>
                     <div className="text-xs text-dark dark:text-gray-400">
                       Admin
                     </div>
@@ -103,19 +145,11 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
                       >
                         Account settings
                       </a>
-                      <a
-                        href="#"
-                        className="text-gray-700 block px-4 py-2 text-sm"
-                        role="menuitem"
-                        id="menu-item-1"
-                      >
-                        Support
-                      </a>
-               
                       <form method="POST" action="#" role="none">
                         <button
+                          onClick={() => logout()}
                           type="submit"
-                          className="text-gray-700 block w-full px-4 py-2 text-left text-sm"
+                          className="text-gray-700 block w-full px-4 py-2 text-left text-sm hover:text-yellow-600 "
                           role="menuitem"
                           id="menu-item-3"
                         >
@@ -129,9 +163,13 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
             </div>
           </div>
 
-          <div className="bg-gray-50 h-[calc(100%-50px)] px-4 pb-4">
-            <div className="border rounded-md h-full p-6 overflow-y-scroll">
+          <div className="bg-gray-200 h-[calc(100%-50px)] px-4 pb-12 pt-2">
+            <div className="border rounded-md h-full p-6 overflow-y-auto bg-white">
               {children}
+            </div>
+            <div className="py-2">
+              <span className="font-semibold">© Copyrights </span>IT 424 from
+              group 2024. All rights reserved. Designed by Lyhav
             </div>
           </div>
         </div>

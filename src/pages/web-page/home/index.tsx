@@ -1,13 +1,23 @@
-import { BannerHome } from "@/components/school-web/home/banner"
-
-export const HomePage:React.FC = ()=>{
-    return(
-        <div className="bg-gray-400 w-full pt-12">
-            <BannerHome/>
-            <div className=" h-20 bg-red-400 mx-2"></div>
-
-            <h1 className=" h-80">home</h1>
-    
+import { AboutUs } from "@/components/school-web/about/about-us";
+import { BannerHome } from "@/components/school-web/home/banner";
+import { Title } from "@/components/school-web/title";
+import { Button } from "@/components/ui/button";
+export const HomePage: React.FC = () => {
+  return (
+    <div className="w-full pt-12">
+      <BannerHome />
+      <div className="bg-red-400 flex md:flex-row flex-col justify-center items-center py-10 space-x-8"><h1 className="md:text-4xl text-lg font-semibold">How to Enroll Your Child to a Class?</h1><Button>Join Us</Button></div>
+      <div className="py-4 container">
+        <Title
+          title="Who we are"
+          subtitle="Fable daycare, preschool, and kindergarten"
+          des="Well come to Techedu come with us, we also teach children about the basic values of human beings as honesty, kindness, generosity, courage, freedom, equality and respect. Learn to celebrate diversity in a spirit of understanding and tolerance and develop a positive regard and awareness of other people. They are taught the values and responsibilities needed to become active members of the community, tolerance and develop something which the modern world is desperate for norem ipsum dolor sit amet desperate."
+        />
+        <div className="py-4">
+          <AboutUs />
         </div>
-    )
-}
+        <h1 className=" h-80">home</h1>
+      </div>
+    </div>
+  );
+};

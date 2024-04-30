@@ -1,35 +1,73 @@
-import { AuthBindings } from "@refinedev/core";
 
-export const TOKEN_KEY = "refine-auth";
+
+
+
+
+
+
+
+
+import { AuthBindings, AuthProvider, useList } from "@refinedev/core";
+import axios from 'axios';
+import { API_URL } from "@/App";
 
 export const authProvider: AuthBindings = {
-  login: async ({ username, email, password }) => {
-    if ((username || email) && password) {
-      localStorage.setItem(TOKEN_KEY, username);
+  login: async ({ username, password }) => {
+    const data = await axios.get(`${API_URL}collection/api/user`);
+    const user = data.data.find((item:any) => item.username === username);
+    console.log(user)
+    if (user) {
+      localStorage.setItem("username",user.username);
+      localStorage.setItem("auth",user.token);
       return {
         success: true,
-        redirectTo: "/image",
+        redirectTo: "/dashboard",
       };
     }
-
     return {
       success: false,
       error: {
-        name: "LoginError",
-        message: "Invalid username or password",
+        message: "Login Error",
+        name: "Invalid email or password",
       },
     };
   },
-  logout: async () => {
-    localStorage.removeItem(TOKEN_KEY);
-    return {
-      success: true,
-      redirectTo: "/login",
-    };
+  getIdentity() {
+    return JSON.parse(localStorage.getItem("username") || "{}");
   },
-  check: async () => {
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (token) {
+  logout: async () => {
+    localStorage.removeItem("username");
+    localStorage.removeItem("auth");
+    return { success: true, redirectTo: "/" };
+  },
+  // check: async () => {
+  //   try {
+  //     const authString = localStorage.getItem("auth");
+  //     if (!authString) throw new Error();
+
+  //     const auth = JSON.parse(authString);
+  //     if (!auth || !auth.expires_at) throw new Error();
+
+  //     console.log(auth.expires_at, auth.expires_at - Date.now(), Date.now());
+
+  //     if (auth.expires_at > Date.now()) {
+  //       return { authenticated: true };
+  //     }
+
+  //     return { authenticated: true };
+  //   } catch (error) {
+  //     return {
+  //       authenticated: false,
+  //       logout: true,
+  //       redirectTo: "/login",
+  //       error: { message: "Check failed", name: "Unauthorized" }
+  //     };
+  //   }
+  // },
+    check: async () => {
+    const token = localStorage.getItem("auth");
+    const user = localStorage.getItem("username");
+    if (token && user) {
       return {
         authenticated: true,
       };
@@ -37,23 +75,18 @@ export const authProvider: AuthBindings = {
 
     return {
       authenticated: false,
-      redirectTo: "/login",
+      redirectTo: "/",
     };
   },
-  getPermissions: async () => null,
-  getIdentity: async () => {
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (token) {
+  onError: async (error) => {
+    if (error.status === 401 || error.status === 403) {
       return {
-        id: 1,
-        name: "John Doe",
-        avatar: "https://i.pravatar.cc/300",
+        logout: true,
+        redirectTo: "/",
+        error
       };
     }
-    return null;
-  },
-  onError: async (error) => {
-    console.error(error);
-    return { error };
-  },
+
+    return {};
+  }
 };

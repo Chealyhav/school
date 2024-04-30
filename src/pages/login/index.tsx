@@ -1,52 +1,35 @@
-import { AuthPage } from "@refinedev/core";
-
-// export const Login = () => {
-//   return (
-//     <AuthPage
-//       type="login"
-//       renderContent={(content) => (
-//         <div>
-//           <p
-//             style={{
-//               padding: 10,
-//               color: "#004085",
-//               backgroundColor: "#cce5ff",
-//               borderColor: "#b8daff",
-//               textAlign: "center",
-//             }}
-//           >
-//             email: demo@refine.dev
-//             <br /> password: demodemo
-//           </p>
-//           {content}
-//         </div>
-//       )}
-//     />
-//   );
-// };
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useLogin } from "@refinedev/core";
 import { useState } from "react";
 interface LoginProps {
-  id: string | number;
-  isopen: boolean;
-  setisopen: () => void;
+  username: string;
+  password: string;
 }
 
-export const Login:React.FC=(
-
-)=> {
+export const Login: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { mutate } = useLogin<LoginProps>();
+  const onSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const formData = new FormData(event.target as HTMLFormElement);
+    const username = formData.get("username") as string;
+    const password = formData.get("password") as string;
+    mutate({
+      username,
+      password,
+    });
+    console.log(formData);
+  };
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
@@ -54,58 +37,36 @@ export const Login:React.FC=(
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DialogDescription>
+          <DialogTitle className="text-xl text-center text-red-600 font-semibold">SING IN</DialogTitle>
         </DialogHeader>
-        {/* <div className="grid gap-4 py-4">
+        <form onSubmit={onSubmit} className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Name
+              User Name
             </Label>
             <Input
-              id="name"
-              defaultValue="Pedro Duarte"
+              id="username"
+              placeholder="username"
               className="col-span-3"
+              name="username"
+              type="text"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="username" className="text-right">
-              Username
+              password
             </Label>
             <Input
-              id="username"
+              id="password"
               className="col-span-3"
-              placeholder="username"
+              placeholder="password"
+              name="password"
+              type="password"
             />
           </div>
-       
-        </div> */}
-           <AuthPage
-      type="login"
-      renderContent={(content) => (
-        <div>
-          <p
-            style={{
-              padding: 10,
-              color: "#004085",
-              backgroundColor: "#cce5ff",
-              borderColor: "#b8daff",
-              textAlign: "center",
-            }}
-          >
-            email: demo@refine.dev
-            <br /> password: demodemo
-          </p>
-          {content}
-        </div>
-      )}
-    />
-        <DialogFooter>
-          {/* <Button type="submit">Save changes</Button> */}
-        </DialogFooter>
+          <Button type="submit">Login</Button>
+        </form>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};

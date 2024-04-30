@@ -1,6 +1,7 @@
 import { Login } from "../../../pages/login";
 import { PropsWithChildren } from "react";
 import Header from "../header";
+import { Footer } from "../footer";
 
 export const LayoutHomepage: React.FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -9,7 +10,7 @@ export const LayoutHomepage: React.FC<PropsWithChildren> = ({ children }) => {
       <Header />
       {/* <Login /> */}
       <div className="">{children}</div>
-      <div className="bg-red-400">Footer</div>
+      <div className="bg-slate-300 pt-8"><Footer/></div>
     </div>
   );
 };

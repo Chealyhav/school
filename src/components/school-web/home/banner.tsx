@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { useList } from "@refinedev/core";
+import { API_URL } from "@/App";
 
 const items = [
   {
@@ -39,7 +40,6 @@ export function BannerHome() {
     <div className="">
       <Swiper
         slidesPerView={1}
-        // spaceBetween={24}
         navigation={true}
         loop={true}
         keyboard={true}
@@ -52,21 +52,22 @@ export function BannerHome() {
           bulletClass: "swiper-pagination-bullet ",
         }}
         autoplay={{
-          delay: 5000,
+          delay: 3000,
           pauseOnMouseEnter: true,
         }}
       >
-        {items.map((item, index) => (
+        {data?.data.map((item, index) => (
           <SwiperSlide key={index} className="">
-            <div className="relative md:aspect-w-16 md:aspect-h-6 aspect-w-2 aspect-h-1">
+            <div className="relative md:aspect-w-16 md:aspect-h-5 aspect-w-3 aspect-h-2">
               <img
-                src={item.image}
+                src={`${API_URL}${item.background}`}
                 alt={item.title}
-                className="object-fill relative"
+                className="object-fill "
               />
-              <div className="absolute inset-0 flex flex-col justify-center items-center text-center">
-                <h2 className="text-white">{item.title}</h2>
-                <p className="text-white">{item.description}</p>
+              <div className="absolute inset-0 flex flex-col justify-center items-center text-center space-y-4">
+                <h2 className="text-2xl md:text-4xl font-semibold">{item.title}</h2>
+                <p className="md:text-xl text-lg font-semibold">{item.subtitle}</p>
+                <p className="font-light">{item.des}</p>
               </div>
             </div>
           </SwiperSlide>

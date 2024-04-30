@@ -11,10 +11,11 @@ import { Login } from "@/pages/login";
 const Header = () => {
   const Links = [
     { name: "HOME", link: "/" },
-    { name: "ABOUT", link: "/about" },
-    { name: "CLASSES", link: "/classes" },
-    { name: "TEACHER", link: "/teacher" },
-    { name: "CONTACT", link: "/contact" },
+    { name: "ABOUT", link: "/Abouts" },
+    { name: "CLASSES", link: "/Class" },
+    { name: "TEACHER", link: "/Teachers" },
+    { name: "BLOG", link: "/Blogs" },
+    { name: "CONTACT", link: "/Contacts" },
   ];
   const [open, setOpen] = useState(false);
 
@@ -40,19 +41,20 @@ const Header = () => {
           }`}
         >
           {Links.map((link, index) => (
-            <li key={index} className="md:ml-8 md:my-0 my-7 font-semibold">
+            <li key={index} className="md:ml-8 md:my-0 my-2 font-semibold">
               <Link
                 to={link.link}
-                className="text-gray-800 hover:text-blue-400 duration-500"
+                className="text-gray-800 hover:text-blue-400 duration-500 md:text-xl text-sm"
               >
                 {link.name}
               </Link>
             </li>
           ))}
-          <Login />
-          <button className=" bg-blue-600 text-white md:ml-8 font-semibold px-3 py-1 rounded duration-500 md:static">
-            Get Started
-          </button>
+          <li className="px-4">
+          <Login/>
+
+          </li>
+       
         </ul>
       </div>
     </div>

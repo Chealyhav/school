@@ -7,45 +7,63 @@ import { useUpdate } from "@refinedev/core";
 import { FieldValues } from "react-hook-form";
 
 export const Edit = () => {
-  const { register, handleSubmit, reset, refineCore } = useForm<Person>({
+  const { register, handleSubmit, reset, refineCore: { onFinish }  } = useForm<Person>({
     refineCoreProps: {
-      resource: "test",
+      resource: "image",
       action: "edit",
-      id: 3,
+      id: 8,
     },
   });
-  const { mutate } = useUpdate();
-  const onSubmit = (data: FieldValues) => {
-    mutate({
-      resource: "test",
-      values: {
-        first_name: data.first_name,
-        last_name: data.last_name,
-        gender: data.gender,
-        dob: data.dob,
-      },
-      id:3,
-    });
-    reset();
-    console.log(data);
+  // const { mutate } = useUpdate();
+  // const onSubmit = (data: FieldValues) => {
+  //   mutate({
+  //     resource: "image",
+  //     values: {
+  //       title: data.title,
+  //       image: data.image[0],
+    
+  //     },
+  //     id:8,
+  //   });
+  //   reset();
+  //   console.log(data);
+  // };
+  const onSubmit = async (data: FieldValues) => {
+    try {
+      const formData = new FormData();
+      formData.append("title", data.title);
+      formData.append("image", data.image[0]);
+
+      // Use the onFinish method to create a new record with the file data
+      await onFinish(formData);
+      reset();
+      console.log("Data posted successfully");
+    } catch (error) {
+      console.error("Error posting data:", error);
+      // Handle error, show error message, etc.
+    }
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
-          placeholder="First Name"
-          {...register("name", { required: true })}
+         type="text"
+          placeholder="Title"
+          {...register("title", { required: true })}
           className="w-1/2"
-          name="name"
+          name="title"
         />
+
+        {/* <div className="w-20 h-10">{...register("image")}</div> */}
         <Input
-          placeholder="First Name"
+        type="file"
+          placeholder="Image"
           {...register("first_name", { required: true })}
           className="w-1/2"
           name="first_name"
         />
-        <Input
+        {/* <Input
           placeholder="Last Name"
           {...register("last_name", { required: true })}
           className="w-1/2"
@@ -64,7 +82,7 @@ export const Edit = () => {
         >
           <option value="Male">Male</option>
           <option value="Female">Female</option>
-        </select>
+        </select> */}
         <Button type="submit">Submit</Button>
       </form>
     </div>

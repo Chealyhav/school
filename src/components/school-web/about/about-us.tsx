@@ -4,17 +4,17 @@ import { useOne } from "@refinedev/core";
 export function AboutUs() {
   const { data } = useOne({
     resource: "about",
-    id:3
+    id:1
   });
   console.log(data);
 
   return (
-    <div className="">
-      <div className="grid md:grid-cols-2 grid-col-1  ">
-        <div className="bg-red-400">
-          <h2 className="text-xl font-semibold">{data?.data.title}</h2>
-          <h2 className="text-xl font-semibold">{data?.data.subtitle}</h2>
-          <p className="text-white">{data?.data.des}</p>
+    <>
+      <div className="grid md:grid-cols-2 grid-col-1">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-semibold text-slate-600">{data?.data.title}</h2>
+          <h2 className="text-xl font-semibold text-slate-600">{data?.data.subtitle}</h2>
+          <p className="text-slate-600">{data?.data.des}</p>
 
           <div className="">
             
@@ -28,7 +28,7 @@ export function AboutUs() {
           />
         </div>
       </div>
-      <div className="h-10 bg-green-500"></div>
-    </div>
+     
+    </>
   );
 }
