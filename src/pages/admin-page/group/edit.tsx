@@ -16,10 +16,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Edit, Edit2Icon } from "lucide-react";
 interface EditBannerHomeProps {
   id: string;
 }
-export const EditBanner: React.FC<EditBannerHomeProps> = ({ id }) => {
+export const EditGroup: React.FC<EditBannerHomeProps> = ({ id }) => {
   const {
     register,
     handleSubmit,
@@ -27,7 +28,7 @@ export const EditBanner: React.FC<EditBannerHomeProps> = ({ id }) => {
     refineCore: { onFinish },
   } = useForm<BannerHomeProps>({
     refineCoreProps: {
-      resource: "banner",
+      resource: "group",
       action: "edit",
       id: id,
     },
@@ -36,7 +37,8 @@ export const EditBanner: React.FC<EditBannerHomeProps> = ({ id }) => {
   const onSubmit = async (data: FieldValues) => {
     try {
       const formData = new FormData();
-      formData.append("image", data.image[0]);
+      formData.append("name", data.name);
+      formData.append("subtitle", data.subtitle);
 
       await onFinish(formData);
       reset();
@@ -49,22 +51,25 @@ export const EditBanner: React.FC<EditBannerHomeProps> = ({ id }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <a>Edit</a>
+        <Edit size={24} color="red" />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Banners </DialogTitle>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="py-4 space-y-2">
-              <Label className="text-start">Upload Banner Photo (300px X 150px)</Label>
-              <Input
-                type="file"
-                placeholder="input background "
-                {...register("image")}
-                name="image"
-              />
+            <div className="flex flex-col space-y-2">
+              <div className="py-4">
+                <Label>Name</Label>
+                <Input type="text" {...register("name")} name="name" />
+              </div>
+              <div className="py-4">
+                <Label>Description</Label>
+                <Input type="text" {...register("subtitle")} name="subtitle" />
+              </div>
             </div>
-            <Button type="submit" className="float-right">Update</Button>
+            <Button type="submit" className="float-right">
+              Update
+            </Button>
           </form>
         </DialogHeader>
       </DialogContent>

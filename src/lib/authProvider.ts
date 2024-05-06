@@ -1,24 +1,23 @@
-
-
-
-
-
-
-
-
-
 import { AuthBindings, AuthProvider, useList } from "@refinedev/core";
-import axios from 'axios';
+import axios from "axios";
 import { API_URL } from "@/App";
 
 export const authProvider: AuthBindings = {
-  login: async ({ username, password }) => {
-    const data = await axios.get(`${API_URL}collection/api/user`);
-    const user = data.data.find((item:any) => item.username === username);
-    console.log(user)
-    if (user) {
-      localStorage.setItem("username",user.username);
-      localStorage.setItem("auth",user.token);
+  login: async ({ email, password }) => {
+    const login = await axios.post(`${API_URL}collection/api/login`, {
+      email,
+      password,
+    });
+    const token = await axios.post(`${API_URL}collection/api/token`, {
+      email,
+      password,
+    });
+    const { data } = login;
+    const { data: tokenData } = token;
+    if (data && tokenData) {
+      localStorage.setItem("username", data.username);
+      localStorage.setItem("auth", tokenData.refresh);
+      localStorage.setItem("role", data.role);
       return {
         success: true,
         redirectTo: "/dashboard",
@@ -38,6 +37,7 @@ export const authProvider: AuthBindings = {
   logout: async () => {
     localStorage.removeItem("username");
     localStorage.removeItem("auth");
+    localStorage.removeItem("role");
     return { success: true, redirectTo: "/" };
   },
   // check: async () => {
@@ -64,7 +64,7 @@ export const authProvider: AuthBindings = {
   //     };
   //   }
   // },
-    check: async () => {
+  check: async () => {
     const token = localStorage.getItem("auth");
     const user = localStorage.getItem("username");
     if (token && user) {
@@ -83,10 +83,10 @@ export const authProvider: AuthBindings = {
       return {
         logout: true,
         redirectTo: "/",
-        error
+        error,
       };
     }
 
     return {};
-  }
+  },
 };

@@ -19,7 +19,7 @@ interface PopupProps {
   id: string;
 }
 
-export const CreateBanner: React.FC = () => {
+export const CreateGroup: React.FC = () => {
   const {
     reset,
     register,
@@ -30,7 +30,8 @@ export const CreateBanner: React.FC = () => {
   const onSubmit = async (data: FieldValues) => {
     try {
       const formData = new FormData();
-      formData.append("image", data.image[0]);
+      formData.append("name", data.name);
+      formData.append("subtitle", data.subtitle);
 
       await onFinish(formData);
       reset();
@@ -50,16 +51,19 @@ export const CreateBanner: React.FC = () => {
         <DialogHeader>
           <DialogTitle>Add Banners</DialogTitle>
           <form onSubmit={handleSubmit(onSubmit)} className="">
-            <div className="py-4">
-              <Label>Upload Banner Photo (300px X 150px)</Label>
-              <Input
-                type="file"
-                placeholder="input background "
-                {...register("image")}
-                name="image"
-              />
+            <div className="flex flex-col space-y-2">
+              <div className="py-4">
+                <Label>Name</Label>
+                <Input type="text" {...register("name")} name="name" />
+              </div>
+              <div className="py-4">
+                <Label>Description</Label>
+                <Input type="text" {...register("subtitle")} name="subtitle" />
+              </div>
             </div>
-            <Button type="submit" className="float-right">Save</Button>
+            <Button type="submit" className="float-right">
+              Save
+            </Button>
           </form>
         </DialogHeader>
       </DialogContent>

@@ -12,20 +12,21 @@ import { Label } from "@/components/ui/label";
 import { useLogin } from "@refinedev/core";
 import { useState } from "react";
 interface LoginProps {
-  username: string;
+  email: string;
   password: string;
 }
 
 export const Login: React.FC = () => {
+  
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { mutate } = useLogin<LoginProps>();
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
-    const username = formData.get("username") as string;
+    const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     mutate({
-      username,
+      email,
       password,
     });
     console.log(formData);
@@ -45,11 +46,11 @@ export const Login: React.FC = () => {
               User Name
             </Label>
             <Input
-              id="username"
-              placeholder="username"
+              id="email"
+              placeholder="email"
               className="col-span-3"
-              name="username"
-              type="text"
+              name="email"
+              type="email"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">

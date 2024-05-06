@@ -23,9 +23,9 @@ const Header = () => {
     <div className="shadow-md w-full fixed z-30 top-0 left-0">
       <div className="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
         {/* logo section */}
-        <div className="font-bold text-2xl cursor-pointer flex items-center gap-1">
-          <BookOpenIcon className="w-7 h-7 text-blue-600" />
-          <span>Inscribe</span>
+        <div className="font-bold text-2xl cursor-pointer flex items-center">
+          <img src="/image/SYS-logo-01-01.png" alt="" className="size-11" />
+     
         </div>
         {/* Menu icon */}
         <div

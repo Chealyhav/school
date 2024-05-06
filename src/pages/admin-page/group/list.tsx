@@ -1,7 +1,8 @@
 import { API_URL } from "@/App";
 import { Button } from "@/components/ui/button";
+import { Delete } from "@/components/ui/delete";
 import { DeleteDialog } from "@/components/ui/delete-dialog";
-import { BannerHomeProps } from "@/interface/home";
+import { BannerHomeProps, BannerProps, GroupProps } from "@/interface/home";
 import { useDelete, useList, useTable, useUpdate } from "@refinedev/core";
 import {
   ChevronLeft,
@@ -12,9 +13,11 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigation } from "react-router-dom";
+import { CreateGroup } from "./create";
+import { EditGroup } from "./edit";
 
-export const ListBannerHome: React.FC = () => {
+export const ListGroup: React.FC = () => {
   const {
     tableQueryResult,
     pageCount,
@@ -23,8 +26,8 @@ export const ListBannerHome: React.FC = () => {
     setCurrent,
     setFilters,
     setPageSize,
-  } = useTable<BannerHomeProps>({
-    resource: "bannerhome",
+  } = useTable<GroupProps>({
+    resource: "group",
     sorters: {
       initial: [
         {
@@ -40,48 +43,37 @@ export const ListBannerHome: React.FC = () => {
   const shouldShowPagination = data.length >= 6;
   return (
     <div className="">
-      <h1 className="md:text-xl text-base font-semibold pb-4">Banners HomePage</h1>
-      <Button className="">
-        <Link to="/bannerhome/create">Create</Link>
+      <h1 className="md:text-xl text-base font-semibold pb-4">
+        Banners HomePage
+      </h1>
+      <Button className="bg-blue-600 hover:bg-slate-500">
+        <CreateGroup />
       </Button>
       <div className="h-1 w-full bg-slate-600 rounded-full mt-4"></div>
       <div className="">
         <table className="w-full h-full text-center">
           <thead>
             <tr className=" border-gray-400 border-b-2 ">
-              <th className="py-4">Title</th>
-              <th>Background</th>
-              <th>Subtitle</th>
-              <th className="max-sm:hidden">Description</th>
+              <th>Name</th>
+              <th>Description</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {data.map((x) => (
-              <tr key={x.id} className=" border-gray-400 border-b-2">
-                <td className="py-2 text-sm md:text-base">{x.title}</td>
-                <td className="py-2">
-                  <img
-                    src={`${API_URL}${x.background}`}
-                    alt={x.title}
-                    className="size-16 rounded-full object-cover mx-auto"
-                  />
-                </td>
+              <tr key={x.id} className=" border-gray-400 border-b-2 space-y-2">
+                <td className="py-2 text-sm md:text-base">{x.name}</td>
                 <td className="text-sm md:text-base">{x.subtitle}</td>
-                <td className="text-sm md:text-base max-sm:hidden">{x.des}</td>
-
-                <td className="">
-                  <div className="flex space-x-2 ">
-                    <Link to={`/bannerhome/edit/${x.id}`}>
-                      <Edit size={24} color="red" />
-                    </Link>
+                <td className="flex justify-center items-center">
+                  <div className="flex space-x-2 items-center ">
+                    <button>
+                      <EditGroup id={x.id} />
+                   </button>
                     <button>
                       <DeleteDialog
-                        resource={"bannerhome"}
+                        resource={"group"}
                         id={x.id as any}
-                        message={
-                          "are you sure you want to delete from banner home page?"
-                        }
+                        message={"are you sure you want to delete from group?"}
                       />
                     </button>
                   </div>
@@ -139,7 +131,7 @@ export const ListBannerHome: React.FC = () => {
                 setPageSize(value);
               }}
             >
-              {[5,20, 30, 40, 50].map((size) => (
+              {[5, 20, 30, 40, 50].map((size) => (
                 <option
                   key={size}
                   value={size}

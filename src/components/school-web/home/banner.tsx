@@ -33,7 +33,7 @@ export function BannerHome() {
   const { data } = useList({
     resource: "bannerhome",
   });
-  console.log(data)
+
 
 
   return (

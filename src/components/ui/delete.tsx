@@ -28,12 +28,12 @@ export const Delete: React.FC<Props> = ({ resource, id, message }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-      <Trash2Icon size={24} color="red" />
+       <Button>Delete</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Delete</DialogTitle>
-          <DialogDescription>{message}</DialogDescription>
+          <DialogDescription className="py-4  text-lg font-light text-primary">{message}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4"></div>
         <DialogFooter>

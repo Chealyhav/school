@@ -10,7 +10,7 @@ export const LayoutHomepage: React.FC<PropsWithChildren> = ({ children }) => {
       <Header />
       {/* <Login /> */}
       <div className="">{children}</div>
-      <div className="bg-slate-300 pt-8"><Footer/></div>
+      <div className="bg-slate-400 pt-8"><Footer/></div>
     </div>
   );
 };

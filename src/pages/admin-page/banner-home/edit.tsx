@@ -40,7 +40,7 @@ export const EditBannerHome: React.FC <EditBannerHomeProps>  = ({id}) => {
   };
   return (
     <div className="">
-       <Link to="/bannerhome/list" className="hover:text-yellow-400 font-semibold">List</Link>
+       <Link to="/bannerhome" className="hover:text-yellow-400 font-semibold">List</Link>
       <h1 className="text-xl font-semibold">Edit Banners Homepage</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex py-4 space-x-4">

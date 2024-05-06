@@ -20,11 +20,11 @@ export const Banner: React.FC<BannerProps> = ({ content, link }) => {
   });
   return (
     <>
-      <div className="relative md:aspect-w-16 md:aspect-h-4 aspect-w-2 aspect-h-1">
+      <div className="relative md:aspect-w-16 md:aspect-h-4 aspect-w-2 aspect-h-1 ">
         <img
            src={`${API_URL}${data?.data[0]?.image || "/image/about.png"}`}
           alt=""
-          className="object-fill "
+          className="object-fill"
         />
         <div className="absolute inset-0 flex flex-col justify-center items-center text-center max-sm:pt-10">
           <h2 className="text-xl md:text-5xl font-semibold text-red-600">

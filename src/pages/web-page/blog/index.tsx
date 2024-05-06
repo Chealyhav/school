@@ -1,4 +1,5 @@
 import { Banner } from "@/components/school-web/banner";
+import { CardBlog } from "@/components/school-web/blog";
 import { Title } from "@/components/school-web/title";
 
 export const BlogPage: React.FC = () => {
@@ -6,8 +7,10 @@ export const BlogPage: React.FC = () => {
       <div>
         <Banner content="News" link="News" />
         <div className="container py-4">
-          <div className=""><Title title="Our Classes" subtitle="Our preschool program has six dedicated classes"/></div>
-          <h1>ContactPage</h1>
+          <div className=""><Title title="Our Blog" subtitle=""/></div>
+          <div className="">
+            <CardBlog/>
+          </div>
         </div>
       </div>
     );

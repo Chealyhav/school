@@ -3,13 +3,14 @@ import { Link, NavLink } from "react-router-dom";
 import { useGetIdentity, useLogout, useMenu, useOne } from "@refinedev/core";
 import { Button } from "@/components/ui/button";
 import { User } from "@/interface/user";
-import { AcademicCapIcon } from "@heroicons/react/24/solid";
+import { BookOpenIcon, AcademicCapIcon, AdjustmentsHorizontalIcon, ChartBarIcon, UserGroupIcon, UsersIcon } from "@heroicons/react/24/solid";
+
 
 export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   // const { data: identity } = useGetIdentity<User>();
   const { mutate: logout } = useLogout();
   const { menuItems } = useMenu();
-  const [showSideBar, setShowSideBar] = useState(true);
+  const [showSideBar, setShowSideBar] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
   const [showDropDownmenu, setShowDropDownmenu] = useState(false);
   const Username = localStorage.getItem("username");
@@ -32,8 +33,8 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
             showSideBar ? "" : "hidden"
           }`}
         >
-          <div className="h-[50px] bg-gray-900 flex items-center">
-            <div className="font-bold text-xl px-[20px]">Admin Dashboard</div>
+          <div className=" bg-gray-900 flex items-center">
+            <div className="font-bold text-xl px-[20px]"> <img src="/image/SYS-logo-01-01.png" alt="" className="size-16" /></div>
           </div>
           <div className="bg-gray-800 h-[calc(100%-50px)] px-[20px] py-[20px]">
             <div className="flex flex-col justify-between h-full">
@@ -45,7 +46,7 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
                 ))} */}
                 <ul className="space-y-2">
                   <li className="flex justify-start items-center space-x-2">
-                    <AcademicCapIcon className="size-4" />
+                    <ChartBarIcon className="size-4" />
                     <Link to="dashboard">Dashboard</Link>
                   </li>
                   <li className="flex justify-start items-center space-x-2">
@@ -54,42 +55,45 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
                   </li>
                 </ul>
                 <li className="flex justify-start items-center space-x-2">
-                  <AcademicCapIcon className="size-4" />
+                  <UsersIcon className="size-4" />
                   <Link to="teacher">Teacher</Link>
                 </li>
                 <li className="flex justify-start items-center space-x-2">
-                  <AcademicCapIcon className="size-4" />
+                  <BookOpenIcon className="size-4" />
                   <Link to="classes">Classes</Link>
+                </li>
+                <li className="flex justify-start items-center space-x-2">
+                  <UserGroupIcon  className="size-4" />
+                  <Link to="group">Group</Link>
                 </li>
 
                 <div className="py-4">
                   <h2 onClick={toggleDropMenu}>WebSite</h2>
                   <div className="bg-white h-0.5 w-full rounded-full"></div>
-                  {showDropDownmenu && (
+                  {/* {showDropDownmenu && ( */}
                     <ul className="space-y-2 pt-2">
                       <li className="flex justify-start items-center space-x-2">
-                        <AcademicCapIcon className="size-4" />
+                        < AdjustmentsHorizontalIcon className="size-4" />
                         <Link to="bannerhome">Banner Home</Link>
                       </li>
                       <li className="flex justify-start items-center space-x-2">
-                        <AcademicCapIcon className="size-4" />
+                      < AdjustmentsHorizontalIcon className="size-4" />
                         <Link to="banner">Banner</Link>
                       </li>
                       <li className="flex justify-start items-center space-x-2">
-                        <AcademicCapIcon className="size-4" />
+                      < AdjustmentsHorizontalIcon className="size-4" />
                         <Link to="about">About Us</Link>
                       </li>
                       <li className="flex justify-start items-center space-x-2">
-                        <AcademicCapIcon className="size-4" />
+                      < AdjustmentsHorizontalIcon className="size-4" />
                         <Link to="contact">Contact</Link>
                       </li>
                       <li className="flex justify-start items-center space-x-2">
-                        <AcademicCapIcon className="size-4" />
+                      < AdjustmentsHorizontalIcon className="size-4" />
                         <Link to="blog">Blog</Link>
                       </li>
                     </ul>
-                  )}
-                  <div className="">xx</div>
+                  {/* )} */}
                 </div>
               </div>
             </div>
