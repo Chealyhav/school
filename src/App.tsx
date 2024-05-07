@@ -319,9 +319,9 @@ function App() {
               ></Route>
             </Routes>
 
-            <RefineKbar />
-            <UnsavedChangesNotifier />
-            <DocumentTitleHandler />
+            {/* <RefineKbar /> */}
+            {/* <UnsavedChangesNotifier /> */}
+            {/* <DocumentTitleHandler /> */}
           </Refine>
         </DevtoolsProvider>
       </RefineKbarProvider>
