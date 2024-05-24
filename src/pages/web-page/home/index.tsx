@@ -3,18 +3,19 @@ import { ClassesCard } from "@/components/school-web/classes/classes-card";
 import { BannerHome } from "@/components/school-web/home/banner";
 import { Title } from "@/components/school-web/title";
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Link } from "react-router-dom";
 export const HomePage: React.FC = () => {
   return (
-    <div className="w-full pt-12">
+    <div className="w-full pt-12 ">
       <BannerHome />
-      <div className="bg-red-400 flex md:flex-row flex-col justify-center items-center py-10 space-x-8">
-        <h1 className="md:text-4xl text-lg font-semibold">
+      <div className="bg-red-400  flex md:flex-row flex-col justify-center items-center py-10 space-x-8">
+        <h1 className="md:text-4xl text-lg font-semibold dark:text-white">
           How to Enroll Your Child to a Class?
         </h1>
         <Button>
-          {" "}
           <Link to="/Contacts">Join Us</Link>
+        
         </Button>
       </div>
       <div className="py-4 container">

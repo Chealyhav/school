@@ -64,7 +64,7 @@ import { EditBlog } from "./pages/admin-page/blog/edit";
 import { ListGroup } from "./pages/admin-page/group/list";
 
 // initialize axios
-export const API_URL = "http://127.0.0.1:8000/";
+export const API_URL = process.env.API_URL;
 export const axiosInstance = axios.create();
 axiosInstance.defaults.baseURL = API_URL;
 
@@ -82,13 +82,15 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(customError);
   }
 );
+
 function App() {
+  const apiUrl = process.env.API_URL;
   return (
     <BrowserRouter>
       <RefineKbarProvider>
         <DevtoolsProvider>
           <Refine
-            dataProvider={dataProvider("http://127.0.0.1:8000/collection/api")}
+            dataProvider={dataProvider(`${apiUrl}/collection/api`)}
             routerProvider={routerBindings}
             authProvider={authProvider}
             notificationProvider={notificationProvider}
@@ -251,17 +253,17 @@ function App() {
                 <Route path="/student">
                   <Route index element={<ListStudent />} />
                   <Route path="/student/create" element={<CreateStudent />} />
-                  <Route path="/student/edit/:id" element={<EditStudent />} />
+                  {/* <Route path="/student/edit/:id" element={<EditStudent />} /> */}
                 </Route>
                 <Route path="/teacher">
                   <Route index element={<ListTeacher />} />
-                  <Route path="/teacher/create" element={<CreateTeacher  />} />
-                  <Route path="/teacher/edit/:id" element={<EditTeacher />} />
+                  <Route path="/teacher/create" element={<CreateTeacher />} />
+                  {/* <Route path="/teacher/edit/:id" element={<EditTeacher />} /> */}
                 </Route>
                 <Route path="/classes">
                   <Route index element={<ListClasses />} />
                   <Route path="/classes/create" element={<CreateClasses />} />
-                  <Route path="/classes/edit/:id" element={<EditClasses />} />
+                  {/* <Route path="/classes/edit/:id" element={<EditClasses />} /> */}
                 </Route>
                 <Route path="/group">
                   <Route index element={<ListGroup />} />
@@ -280,30 +282,30 @@ function App() {
                     path="/bannerhome/create"
                     element={<CreateBannerHome />}
                   />
-                  <Route
+                  {/* <Route
                     path="/bannerhome/edit/:id"
-                    element={<EditBannerHome  />}
-                  />
+                    element={<EditBannerHome />}
+                  /> */}
                 </Route>
                 <Route path="/banner">
                   <Route index element={<ListBanner />} />
                   <Route path="/banner/create" element={<CreateBanner />} />
-                  <Route path="/banner/edit/:id" element={<EditBanner/>} />
+                  {/* <Route path="/banner/edit/:id" element={<EditBanner />} /> */}
                 </Route>
                 <Route path="/about">
                   <Route index element={<ListAbout />} />
                   <Route path="/about/create" element={<CreateAbout />} />
-                  <Route path="/about/edit/:id" element={<EditAbout />} />
+                  {/* <Route path="/about/edit/:id" element={<EditAbout />} /> */}
                 </Route>
                 <Route path="/contact">
                   <Route index element={<ListContact />} />
                   <Route path="/contact/create" element={<CreateContact />} />
-                  <Route path="/contact/edit/:id" element={<EditContact />} />
+                  {/* <Route path="/contact/edit/:id" element={<EditContact />} /> */}
                 </Route>
                 <Route path="/blog">
                   <Route index element={<ListBlog />} />
                   <Route path="/blog/create" element={<CreateBlog />} />
-                  <Route path="/blog/edit/:id" element={<EditBlog />} />
+                  {/* <Route path="/blog/edit/:id" element={<EditBlog />} /> */}
                 </Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
@@ -323,6 +325,7 @@ function App() {
             {/* <UnsavedChangesNotifier /> */}
             {/* <DocumentTitleHandler /> */}
           </Refine>
+          {/* <Wrapper /> */}
         </DevtoolsProvider>
       </RefineKbarProvider>
     </BrowserRouter>

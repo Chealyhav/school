@@ -7,6 +7,7 @@ import {
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Login } from "@/pages/login";
+import { ModeToggle } from "../ui/mode-toggle";
 
 const Header = () => {
   const Links = [
@@ -25,7 +26,6 @@ const Header = () => {
         {/* logo section */}
         <div className="font-bold text-2xl cursor-pointer flex items-center">
           <img src="/image/SYS-logo-01-01.png" alt="" className="size-11" />
-     
         </div>
         {/* Menu icon */}
         <div
@@ -51,10 +51,11 @@ const Header = () => {
             </li>
           ))}
           <li className="px-4">
-          <Login/>
-
+            <Login />
           </li>
-       
+          <li className="px-4">
+            <ModeToggle />
+          </li>
         </ul>
       </div>
     </div>
