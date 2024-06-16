@@ -1,4 +1,4 @@
-import { API_URL } from "@/App";
+import { API_URL } from "@/api/url";
 import { useList } from "@refinedev/core";
 import { Banner } from "../banner";
 import { IconBrandFacebookFilled } from "@tabler/icons-preact";
@@ -13,13 +13,13 @@ export const CardContact: React.FC = () => {
       <div className="">
         <Banner content="Contact " link="contact" />
       </div>
-      <div className="h-2/4 w-full">
+      {/* <div className="h-2/4 w-full">
         <iframe
           className="w-full h-1/2"
           src={data?.data[0].map || ""}
           loading="lazy"
         ></iframe>
-      </div>
+      </div> */}
       <div className="container">
         {data?.data.map((x) => (
           <div  key={x.id} className="">

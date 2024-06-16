@@ -44,7 +44,7 @@ const Header = () => {
             <li key={index} className="md:ml-8 md:my-0 my-2 font-semibold">
               <Link
                 to={link.link}
-                className="text-gray-800 hover:text-blue-400 duration-500 md:text-xl text-sm"
+                className="text-gray-800 hover:text-yellow-600 duration-500 md:text-xl text-sm"
               >
                 {link.name}
               </Link>

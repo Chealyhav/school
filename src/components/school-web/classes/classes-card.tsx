@@ -1,4 +1,4 @@
-import { API_URL } from "@/App";
+import { API_URL } from "@/api/url";
 import { Button } from "@/components/ui/button";
 import { useList } from "@refinedev/core";
 import { Link } from "react-router-dom";

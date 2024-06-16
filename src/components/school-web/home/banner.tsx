@@ -6,41 +6,22 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import { useList } from "@refinedev/core";
-import { API_URL } from "@/App";
+import { API_URL } from "@/api/url";
 
-const items = [
-  {
-    image:
-      "https://htmldemo.net/techedu/techedu/img/slider/5.jpg",
-    title: "Item 1",
-    description: "Description for item 1",
-  },
-  {
-    image:
-      "https://htmldemo.net/techedu/techedu/img/slider/6.jpg",
-    title: "Item 2",
-    description: "Description for item 2",
-  },
-  {
-    image:
-      "https://htmldemo.net/techedu/techedu/img/slider/2.jpg",
-    title: "Item 3",
-    description: "Description for item 3",
-  },
-];
 
 export function BannerHome() {
-  const { data } = useList({
+
+  const { data, error, isError, isLoading  } = useList({
     resource: "bannerhome",
   });
+  if (isError) <div>{error?.message}</div>;
 
-
-
+  if (isLoading) <div>Loading...</div>;
   return (
-    <div className="">
+    <>
       <Swiper
         slidesPerView={1}
-        navigation={true}
+        navigation={false}
         loop={true}
         keyboard={true}
         modules={[Keyboard, Navigation, Pagination, Autoplay]}
@@ -48,7 +29,7 @@ export function BannerHome() {
           clickable: true,
           type: "bullets",
           bulletActiveClass:
-            "!w-6 md:!w-10 !h-2 !rounded-sm !bg-green-600 !opacity-100",
+            "!w-6 md:!w-10 !h-2 !rounded-sm !bg-yellow-600 !opacity-100",
           bulletClass: "swiper-pagination-bullet ",
         }}
         autoplay={{
@@ -58,11 +39,11 @@ export function BannerHome() {
       >
         {data?.data.map((item, index) => (
           <SwiperSlide key={index} className="">
-            <div className="relative md:aspect-w-16 md:aspect-h-5 aspect-w-3 aspect-h-2">
+            <div className="relative md:aspect-w-16 md:aspect-h-5 aspect-w-3 aspect-h-2 bg-gradient-to-b from-slate-600 to-slate-200">
               <img
                 src={`${API_URL}${item.background}`}
                 alt={item.title}
-                className="object-fill "
+                className="object-fill opacity-50"
               />
               <div className="absolute inset-0 flex flex-col justify-center items-center text-center space-y-4">
                 <h2 className="text-2xl md:text-4xl font-semibold">{item.title}</h2>
@@ -73,6 +54,6 @@ export function BannerHome() {
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
+    </>
   );
-}
+}  

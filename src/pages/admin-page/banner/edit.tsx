@@ -1,25 +1,21 @@
-import { API_URL } from "@/App";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { BannerHomeProps } from "@/interface/home";
-import { useOne, useUpdate } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
 import { FieldValues } from "react-hook-form";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-interface EditBannerHomeProps {
-  id: string;
+interface EditBannerProps {
+  id?: string;
 }
-export const EditBanner: React.FC<EditBannerHomeProps> = ({ id }) => {
+export const EditBanner: React.FC<EditBannerProps> = ({ id }) => {
   const {
     register,
     handleSubmit,

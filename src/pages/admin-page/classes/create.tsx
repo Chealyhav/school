@@ -16,7 +16,6 @@ export const CreateClasses: React.FC = () => {
   } = useForm();
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
     try {
       const formData = new FormData();
       formData.append("background", data.background[0]);
@@ -30,7 +29,6 @@ export const CreateClasses: React.FC = () => {
 
       await onFinish(formData);
       reset();
-      console.log("Data posted successfully");
     } catch (error) {
       console.error("Error posting data:", error);
     }
@@ -43,7 +41,6 @@ export const CreateClasses: React.FC = () => {
         <Link to="/classes" className="hover:text-yellow-400 ">
           List
         </Link>
-        <p className="px-1"> / </p>Add Classes
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4 py-4">

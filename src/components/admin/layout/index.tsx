@@ -2,18 +2,32 @@ import { PropsWithChildren, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useGetIdentity, useLogout, useMenu, useOne } from "@refinedev/core";
 import { Button } from "@/components/ui/button";
-import { User } from "@/interface/user";
-import { BookOpenIcon, AcademicCapIcon, AdjustmentsHorizontalIcon, ChartBarIcon, UserGroupIcon, UsersIcon } from "@heroicons/react/24/solid";
-
+import {
+  BookOpenIcon,
+  AcademicCapIcon,
+  AdjustmentsHorizontalIcon,
+  ChartBarIcon,
+  UserGroupIcon,
+  UsersIcon,
+  UserCircleIcon,
+  UserIcon,
+} from "@heroicons/react/24/solid";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { BookAIcon } from "lucide-react";
 
 export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
-  // const { data: identity } = useGetIdentity<User>();
   const { mutate: logout } = useLogout();
-  const { menuItems } = useMenu();
   const [showSideBar, setShowSideBar] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
   const [showDropDownmenu, setShowDropDownmenu] = useState(false);
   const Username = localStorage.getItem("username");
+  const role = localStorage.getItem("role");
+
   const toggleSideBar = () => {
     setShowSideBar(!showSideBar);
   };
@@ -25,7 +39,7 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
     setShowDropDownmenu(!showDropDownmenu);
   };
   return (
-    <div className="h-screen w-screen">
+    <div className="h-screen w-full">
       <div className="flex h-full">
         {/* Sidebar */}
         <div
@@ -34,67 +48,87 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
           }`}
         >
           <div className=" bg-gray-900 flex items-center">
-            <div className="font-bold text-xl px-[20px]"> <img src="/image/SYS-logo-01-01.png" alt="" className="size-16" /></div>
+            <div className="font-bold text-xl px-[20px]">
+              <img src="/image/SYS-logo-01-01.png" alt="" className="size-16" />
+            </div>
           </div>
-          <div className="bg-gray-800 h-[calc(100%-50px)] px-[20px] py-[20px]">
+          <div className="bg-gray-800 h-[calc(100%-20px)] px-[20px] py-[20px]">
             <div className="flex flex-col justify-between h-full">
               <div className="flex flex-col space-y-2">
-                {/* {menuItems.map((item) => (
-                  <li key={item.key}>
-                    <NavLink to={item.route ?? "/"}>{item.label}</NavLink>
-                  </li>
-                ))} */}
                 <ul className="space-y-2">
-                  <li className="flex justify-start items-center space-x-2">
-                    <ChartBarIcon className="size-4" />
-                    <Link to="dashboard">Dashboard</Link>
-                  </li>
-                  <li className="flex justify-start items-center space-x-2">
-                    <AcademicCapIcon className="size-4" />
-                    <Link to="student">Student</Link>
-                  </li>
+                  {(role === "1" || role === "3") && (
+                    <>
+                      {role === "1" && (
+                        <>
+                          <li className="flex justify-start items-center space-x-2">
+                            <ChartBarIcon className="size-4" />
+                            <Link to="dashboard">Dashboard</Link>
+                          </li>
+                        </>
+                      )}
+                      <li className="flex justify-start items-center space-x-2">
+                        <AcademicCapIcon className="size-4" />
+                        <Link to="student">Student</Link>
+                      </li>
+                      <li className="flex justify-start items-center space-x-2">
+                        <UsersIcon className="size-4" />
+                        <Link to="teacher">Teacher</Link>
+                      </li>
+                      <li className="flex justify-start items-center space-x-2">
+                        <BookOpenIcon className="size-4" />
+                        <Link to="classes">Classes</Link>
+                      </li>
+                      <li className="flex justify-start items-center space-x-2">
+                        <BookAIcon className="size-4" />
+                        <Link to="subjects">Subject</Link>
+                      </li>
+                      <li className="flex justify-start items-center space-x-2">
+                        <UserGroupIcon className="size-4" />
+                        <Link to="parent">Parent</Link>
+                      </li>
+                    </>
+                  )}
+                  {role === "1" && (
+                    <>
+                   
+                      <li className="flex justify-start items-center space-x-2">
+                        <UserIcon className="size-4" />
+                        <Link to="register">User</Link>
+                      </li>
+                      <li>
+                        <Accordion type="single" collapsible className="w-full">
+                          <AccordionItem value="item-1">
+                            <AccordionTrigger>Website-school</AccordionTrigger>
+                            <AccordionContent>
+                              <ul className="space-y-2 pt-2">
+                                <li className="flex justify-start items-center space-x-2">
+                                  <AdjustmentsHorizontalIcon className="size-4" />
+                                  <Link to="bannerhome">Banner Home</Link>
+                                </li>
+                                <li className="flex justify-start items-center space-x-2">
+                                  <AdjustmentsHorizontalIcon className="size-4" />
+                                  <Link to="banner">Banner</Link>
+                                </li>
+                                <li className="flex justify-start items-center space-x-2">
+                                  <AdjustmentsHorizontalIcon className="size-4" />
+                                  <Link to="about">About Us</Link>
+                                </li>
+                                <li className="flex justify-start items-center space-x-2">
+                                  <AdjustmentsHorizontalIcon className="size-4" />
+                                  <Link to="contact">Contact</Link>
+                                </li>
+                                <li className="flex justify-start items-center space-x-2">
+                                  <AdjustmentsHorizontalIcon className="size-4" />
+                                  <Link to="blog">Blog</Link>
+                                </li>
+                              </ul>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                      </li>
+                    </>
+                  )}
                 </ul>
-                <li className="flex justify-start items-center space-x-2">
-                  <UsersIcon className="size-4" />
-                  <Link to="teacher">Teacher</Link>
-                </li>
-                <li className="flex justify-start items-center space-x-2">
-                  <BookOpenIcon className="size-4" />
-                  <Link to="classes">Classes</Link>
-                </li>
-                <li className="flex justify-start items-center space-x-2">
-                  <UserGroupIcon  className="size-4" />
-                  <Link to="group">Group</Link>
-                </li>
-
-                <div className="py-4">
-                  <h2 onClick={toggleDropMenu}>WebSite</h2>
-                  <div className="bg-white h-0.5 w-full rounded-full"></div>
-                  {/* {showDropDownmenu && ( */}
-                    <ul className="space-y-2 pt-2">
-                      <li className="flex justify-start items-center space-x-2">
-                        < AdjustmentsHorizontalIcon className="size-4" />
-                        <Link to="bannerhome">Banner Home</Link>
-                      </li>
-                      <li className="flex justify-start items-center space-x-2">
-                      < AdjustmentsHorizontalIcon className="size-4" />
-                        <Link to="banner">Banner</Link>
-                      </li>
-                      <li className="flex justify-start items-center space-x-2">
-                      < AdjustmentsHorizontalIcon className="size-4" />
-                        <Link to="about">About Us</Link>
-                      </li>
-                      <li className="flex justify-start items-center space-x-2">
-                      < AdjustmentsHorizontalIcon className="size-4" />
-                        <Link to="contact">Contact</Link>
-                      </li>
-                      <li className="flex justify-start items-center space-x-2">
-                      < AdjustmentsHorizontalIcon className="size-4" />
-                        <Link to="blog">Blog</Link>
-                      </li>
-                    </ul>
-                  {/* )} */}
-                </div>
               </div>
             </div>
           </div>
@@ -121,16 +155,9 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
                   className="flex items-center justify-start space-x-4"
                   onClick={toggleDrop}
                 >
-                  <img
-                    className="w-10 h-10 rounded-full border-2 border-gray-50"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLzXD140wCYEKBSqQq9hBF1QEVY3YZ39GqEA&usqp=CAU"
-                    alt=""
-                  />
-                  <div className="font-semibold dark:text-dark text-left">
+                  <UserCircleIcon className="size-10 text-slate-600" />
+                  <div className="font-semibold dark:text-dark text-left text-xl">
                     <div>{Username}</div>
-                    <div className="text-xs text-dark dark:text-gray-400">
-                      Admin
-                    </div>
                   </div>
                 </div>
                 {showDropDown && (
@@ -167,11 +194,11 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
             </div>
           </div>
 
-          <div className="bg-gray-200 h-[calc(100%-50px)] px-4 pb-12 pt-2">
+          <div className="bg-gray-200 h-[calc(100%-20px)] px-4 pb-12 pt-2">
             <div className="border rounded-md h-full p-6 overflow-y-auto bg-white">
               {children}
             </div>
-            <div className="py-2">
+            <div className="text-center pt-4">
               <span className="font-semibold">© Copyrights </span>IT 424 from
               group 2024. All rights reserved. Designed by Lyhav
             </div>

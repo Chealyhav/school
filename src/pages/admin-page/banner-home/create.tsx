@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,6 +8,7 @@ import { FieldValues } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 export const CreateBannerHome: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     reset,
     register,
@@ -16,6 +18,7 @@ export const CreateBannerHome: React.FC = () => {
   } = useForm();
 
   const onSubmit = async (data: FieldValues) => {
+    setIsLoading(true);
     try {
       const formData = new FormData();
       formData.append("title", data.title);
@@ -25,11 +28,10 @@ export const CreateBannerHome: React.FC = () => {
 
       await onFinish(formData);
       reset();
-      console.log("Data posted successfully");
-      console.log(formData);
     } catch (error) {
       console.error("Error posting data:", error);
-      // Handle error, show error message, etc.
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -48,7 +50,7 @@ export const CreateBannerHome: React.FC = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-2 md:space-y-4"
       >
-        <div className="grid md:grid-cols-2 grid-cols-1  gap-8">
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-8">
           <div className="space-y-2 w-full">
             <Label>
               Title <span className="text-red-600">*</span>
@@ -101,8 +103,8 @@ export const CreateBannerHome: React.FC = () => {
           </div>
         </div>
 
-        <Button type="submit" className="float-right">
-          Save
+        <Button type="submit" className="float-right" disabled={isLoading}>
+          {isLoading ? "Saving..." : "Save"}
         </Button>
       </form>
     </div>

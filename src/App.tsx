@@ -1,38 +1,22 @@
 import {
   Authenticated,
-  ErrorComponent,
-  HttpError,
   Refine,
 } from "@refinedev/core";
 import { DevtoolsProvider } from "@refinedev/devtools";
-import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-
+import { RefineKbarProvider } from "@refinedev/kbar";
 import routerBindings, {
   CatchAllNavigate,
-  DocumentTitleHandler,
   NavigateToResource,
-  UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Layout } from "./components/admin/layout";
-
-// import { Home } from "./pages/admin-page/home";
-// import { List } from "./pages/admin-page/home/list";
 import dataProvider from "@refinedev/simple-rest";
-// import { Create } from "./pages/admin-page/home/create";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import { Edit } from "./pages/admin-page/home/edit";
-import axios from "axios";
-import { Create } from "./pages/admin-page/home/create";
 import { notificationProvider } from "./lib/notification";
 import { LayoutHomepage } from "./components/school-web/layout";
-import { AboutPage } from "./pages/web-page/abouts";
 import { ContactPage } from "./pages/web-page/contact-us";
-import { HomePage } from "./pages/web-page/home";
-import { ClassesPage } from "./pages/web-page/classes";
 import { authProvider } from "./lib/authProvider";
 import { Dashboard } from "./pages/admin-page/dashboard";
 import { ListBannerHome } from "./pages/admin-page/banner-home/list";
@@ -43,13 +27,10 @@ import { CreateBanner } from "./pages/admin-page/banner/create";
 import { EditBanner } from "./pages/admin-page/banner/edit";
 import { BlogPage } from "./pages/web-page/blog";
 import { TeacherPage } from "./pages/web-page/teacher";
-import { ListStudent } from "./pages/admin-page/student/list";
 import { CreateStudent } from "./pages/admin-page/student/create";
 import { EditStudent } from "./pages/admin-page/student/edit";
-import { ListTeacher } from "./pages/admin-page/teacher/list";
 import { CreateTeacher } from "./pages/admin-page/teacher/create";
 import { EditTeacher } from "./pages/admin-page/teacher/edit";
-import { ListClasses } from "./pages/admin-page/classes/list";
 import { CreateClasses } from "./pages/admin-page/classes/create";
 import { EditClasses } from "./pages/admin-page/classes/edit";
 import { ListAbout } from "./pages/admin-page/about/list";
@@ -61,36 +42,30 @@ import { EditContact } from "./pages/admin-page/contact/edit";
 import { ListBlog } from "./pages/admin-page/blog/list";
 import { CreateBlog } from "./pages/admin-page/blog/create";
 import { EditBlog } from "./pages/admin-page/blog/edit";
-import { ListGroup } from "./pages/admin-page/group/list";
+import { API_URL } from "./api/url";
+import { ListTeacher } from "./pages/admin-page/teacher";
+import { ListStudent } from "./pages/admin-page/student";
+import ErrorPage from "./pages/error/404";
+import { ListClasses } from "./pages/admin-page/classes";
+import { CreateUser } from "./pages/admin-page/auth/create";
+import { ListUser } from "./pages/admin-page/auth";
+import { ClassesPage } from "./pages/web-page/classes";
+import { HomePage } from "./pages/web-page/home";
+import { ListParent } from "./pages/admin-page/patrent";
+import { CreateParent } from "./pages/admin-page/patrent/create";
+import { EditParent } from "./pages/admin-page/patrent/edit";
+import { ListSubject } from "./pages/admin-page/subject";
+import { CreateSubject } from "./pages/admin-page/subject/create";
+import { EditSubject } from "./pages/admin-page/subject/edit";
 
-// initialize axios
-export const API_URL = process.env.API_URL;
-export const axiosInstance = axios.create();
-axiosInstance.defaults.baseURL = API_URL;
-
-axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    const customError: HttpError = {
-      ...error,
-      message: error.response?.data?.message,
-      statusCode: error.response?.status,
-    };
-
-    return Promise.reject(customError);
-  }
-);
 
 function App() {
-  const apiUrl = process.env.API_URL;
   return (
     <BrowserRouter>
       <RefineKbarProvider>
         <DevtoolsProvider>
           <Refine
-            dataProvider={dataProvider(`${apiUrl}/collection/api`)}
+            dataProvider={dataProvider(`${API_URL}/collection/api`)}
             routerProvider={routerBindings}
             authProvider={authProvider}
             notificationProvider={notificationProvider}
@@ -144,11 +119,27 @@ function App() {
                 },
               },
               {
-                name: "image",
-                list: "/image/list",
-                create: "/image/create",
-                edit: "/image/edit/:id",
-                show: "/homepage",
+                name: "subjects",
+                list: "/subjects",
+                create: "/subjects/create",
+                edit: "/subjects/edit/:id",
+                meta: {
+                  canDelete: true,
+                },
+              },
+              {
+                name: "parent",
+                list: "/parent",
+                create: "/parent/create",
+                edit: "/parent/edit/:id",
+                meta: {
+                  canDelete: true,
+                },
+              },
+              {
+                name: "register",
+                list: "/register",
+                create: "/register/create",
                 meta: {
                   canDelete: true,
                 },
@@ -214,12 +205,12 @@ function App() {
                 }
               >
                 <Route index element={<HomePage />} />
-                <Route path="/Abouts" element={<AboutPage />} />
+                {/* <Route path="/Abouts" element={<AboutPage />} /> */}
                 <Route path="/Contacts" element={<ContactPage />} />
                 <Route path="/Class" element={<ClassesPage />} />
                 <Route path="/Blogs" element={<BlogPage />} />
                 <Route path="/Teachers" element={<TeacherPage />} />
-                <Route path="*" element={<ErrorComponent />} />
+                <Route path="*" element={<ErrorPage />} />
               </Route>
 
               <Route
@@ -253,28 +244,33 @@ function App() {
                 <Route path="/student">
                   <Route index element={<ListStudent />} />
                   <Route path="/student/create" element={<CreateStudent />} />
-                  {/* <Route path="/student/edit/:id" element={<EditStudent />} /> */}
+                  <Route path="/student/edit/:id" element={<EditStudent />} />
                 </Route>
                 <Route path="/teacher">
                   <Route index element={<ListTeacher />} />
                   <Route path="/teacher/create" element={<CreateTeacher />} />
-                  {/* <Route path="/teacher/edit/:id" element={<EditTeacher />} /> */}
+                  <Route path="/teacher/edit/:id" element={<EditTeacher />} />
                 </Route>
                 <Route path="/classes">
                   <Route index element={<ListClasses />} />
                   <Route path="/classes/create" element={<CreateClasses />} />
-                  {/* <Route path="/classes/edit/:id" element={<EditClasses />} /> */}
+                  <Route path="/classes/edit/:id" element={<EditClasses />} />
                 </Route>
-                <Route path="/group">
-                  <Route index element={<ListGroup />} />
+                <Route path="/subjects">
+                  <Route index element={<ListSubject />} />
+                  <Route path="/subjects/create" element={<CreateSubject/>} />
+                  <Route path="/subjects/edit/:id" element={<EditSubject />} />
+                </Route>
+                <Route path="/parent">
+                  <Route index element={<ListParent />} />
+                  <Route path="/parent/create" element={<CreateParent />} />
+                  <Route path="/parent/edit/:id" element={<EditParent />} />
                 </Route>
                 {/* ------end admin--------- */}
 
-                <Route path="/image">
-                  {/* <Route index element={<List />} />
-                  <Route path="/image/list" element={<List />} /> */}
-                  <Route path="/image/create" element={<Create />} />
-                  <Route path="/image/edit/:id" element={<Edit />} />
+                <Route path="/register">
+                   <Route index element={<ListUser />} />
+                  <Route path="/register/create" element={<CreateUser />} />
                 </Route>
                 <Route path="/bannerhome">
                   <Route index element={<ListBannerHome />} />
@@ -282,32 +278,32 @@ function App() {
                     path="/bannerhome/create"
                     element={<CreateBannerHome />}
                   />
-                  {/* <Route
+                  <Route
                     path="/bannerhome/edit/:id"
                     element={<EditBannerHome />}
-                  /> */}
+                  />
                 </Route>
                 <Route path="/banner">
                   <Route index element={<ListBanner />} />
                   <Route path="/banner/create" element={<CreateBanner />} />
-                  {/* <Route path="/banner/edit/:id" element={<EditBanner />} /> */}
+                  <Route path="/banner/edit/:id" element={<EditBanner />} />
                 </Route>
                 <Route path="/about">
                   <Route index element={<ListAbout />} />
                   <Route path="/about/create" element={<CreateAbout />} />
-                  {/* <Route path="/about/edit/:id" element={<EditAbout />} /> */}
+                  <Route path="/about/edit/:id" element={<EditAbout />} />
                 </Route>
                 <Route path="/contact">
                   <Route index element={<ListContact />} />
                   <Route path="/contact/create" element={<CreateContact />} />
-                  {/* <Route path="/contact/edit/:id" element={<EditContact />} /> */}
+                  <Route path="/contact/edit/:id" element={<EditContact />} />
                 </Route>
                 <Route path="/blog">
                   <Route index element={<ListBlog />} />
                   <Route path="/blog/create" element={<CreateBlog />} />
-                  {/* <Route path="/blog/edit/:id" element={<EditBlog />} /> */}
+                  <Route path="/blog/edit/:id" element={<EditBlog />} />
                 </Route>
-                <Route path="*" element={<ErrorComponent />} />
+                
               </Route>
               <Route
                 element={
@@ -315,17 +311,13 @@ function App() {
                     key="authenticated-outer"
                     fallback={<Outlet />}
                   >
-                    <NavigateToResource resource="image" />
+                    <NavigateToResource resource="student" />
                   </Authenticated>
                 }
               ></Route>
+              <Route path="*" element={<ErrorPage />} />
             </Routes>
-
-            {/* <RefineKbar /> */}
-            {/* <UnsavedChangesNotifier /> */}
-            {/* <DocumentTitleHandler /> */}
           </Refine>
-          {/* <Wrapper /> */}
         </DevtoolsProvider>
       </RefineKbarProvider>
     </BrowserRouter>

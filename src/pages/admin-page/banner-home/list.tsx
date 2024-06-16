@@ -1,8 +1,9 @@
-import { API_URL } from "@/App";
+import { API_URL } from "@/api/url";
 import { Button } from "@/components/ui/button";
 import { DeleteDialog } from "@/components/ui/delete-dialog";
 import { BannerHomeProps } from "@/interface/home";
-import { useDelete, useList, useTable, useUpdate } from "@refinedev/core";
+import { Loading } from "@/pages/loading/loanding";
+import { HttpError, useDelete, useList, useTable, useUpdate } from "@refinedev/core";
 import {
   ChevronLeft,
   ChevronRight,
@@ -21,23 +22,27 @@ export const ListBannerHome: React.FC = () => {
     pageSize,
     current,
     setCurrent,
-    setFilters,
-    setPageSize,
-  } = useTable<BannerHomeProps>({
+    setPageSize
+  } = useTable<BannerHomeProps,HttpError>({
     resource: "bannerhome",
     sorters: {
       initial: [
         {
-          field: "date_created",
+          field: "created_at",
           order: "desc",
         },
       ],
     },
   });
+
   const hasNext = current < pageCount;
   const hasPrev = current > 1;
   const data = tableQueryResult?.data?.data ?? [];
-  const shouldShowPagination = data.length >= 6;
+  const shouldShowPagination = data.length >= 5;
+  if (tableQueryResult.isLoading) {
+    return <Loading/>;
+  }
+
   return (
     <div className="">
       <h1 className="md:text-xl text-base font-semibold pb-4">Banners HomePage</h1>

@@ -1,6 +1,6 @@
 
 import { useOne } from "@refinedev/core";
-import { API_URL } from "@/App";
+import { API_URL } from "@/api/url";
 
 
 export function BannerClasses() {
@@ -8,7 +8,7 @@ export function BannerClasses() {
     resource: "classes",
     id:1
   });
-  console.log(data);
+
 
   return (
     <div className="">

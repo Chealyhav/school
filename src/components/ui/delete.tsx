@@ -10,11 +10,11 @@ import {
   DialogTitle,
   DialogTrigger
 } from "./dialog";
-import { Trash2Icon } from "lucide-react";
+
 
 interface Props {
   resource: string;
-  id: number;
+  id: number| string;
   message: string;
 }
 export const Delete: React.FC<Props> = ({ resource, id, message }) => {
@@ -33,7 +33,7 @@ export const Delete: React.FC<Props> = ({ resource, id, message }) => {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Delete</DialogTitle>
-          <DialogDescription className="py-4  text-lg font-light text-primary">{message}</DialogDescription>
+          <DialogDescription className="text-center text-xl pt-6 text-slate-800 font-semibold">{message}</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4"></div>
         <DialogFooter>

@@ -1,4 +1,4 @@
-import { API_URL } from "@/App";
+import { API_URL } from "@/api/url";
 import { Button } from "@/components/ui/button";
 import { DeleteDialog } from "@/components/ui/delete-dialog";
 import { BannerHomeProps, ClassesProps } from "@/interface/home";

@@ -25,29 +25,15 @@ export const CreateAbout: React.FC = () => {
   } = useForm();
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
     try {
       const formData = new FormData();
       formData.append("title", data.title);
       formData.append("background", data.background[0]);
       formData.append("des", data.des);
       formData.append("subtitle", data.subtitle);
-      // formData.append("vision_title", data.vision_title);
-      // formData.append("vision_des", data.vision_des);
-      // formData.append("vision_logo", data.vision_logo);
-      // formData.append("mission_title", data.mission_title);
-      // formData.append("mission_des", data.mission_des);
-      // formData.append("mission_logo", data.mission_logo);
-      // formData.append("value_title", data.value_title);
-      // formData.append("value_des", data.value_des);
-      // formData.append("value_logo", data.value_logo);
-      // formData.append("created_at", data.created_at);
-      // formData.append("updated_at", data.updated_at);
-
       await onFinish(formData);
       reset();
-      console.log("Data posted successfully");
-      console.log(formData);
+  
     } catch (error) {
       console.error("Error posting data:", error);
     }
@@ -98,87 +84,6 @@ export const CreateAbout: React.FC = () => {
                   id="subtitle"
                 />
               </div>
-              {/* <div className="py-4">
-      <Label htmlFor="vision_title">Vision Title</Label>
-      <Input
-        type="text"
-        {...register("vision_title")}
-        name="vision_title"
-        id="vision_title"
-      />
-    </div>
-    <div className="py-4">
-      <Label htmlFor="vision_des">Vision Description</Label>
-      <Input
-        type="text"
-        {...register("vision_des")}
-        name="vision_des"
-        id="vision_des"
-      />
-    </div>
-    <div className="py-4">
-      <Label htmlFor="vision_logo">Vision Logo</Label>
-      <Input
-        type="file"
-        {...register("vision_logo")}
-        name="vision_logo"
-        id="vision_logo"
-      />
-    </div> */}
-              {/* <div className="py-4">
-      <Label htmlFor="mission_title">Mission Title</Label>
-      <Input
-        type="text"
-        {...register("mission_title")}
-        name="mission_title"
-        id="mission_title"
-      />
-    </div>
-    <div className="py-4">
-      <Label htmlFor="mission_des">Mission Description</Label>
-      <Input
-        type="text"
-        {...register("mission_des")}
-        name="mission_des"
-        id="mission_des"
-      />
-    </div>
-    <div className="py-4">
-      <Label htmlFor="mission_logo">Mission Logo</Label>
-      <Input
-        type="file"
-        {...register("mission_logo")}
-        name="mission_logo"
-        id="mission_logo"
-      />
-    </div>
-    <div className="py-4">
-      <Label htmlFor="value_title">Value Title</Label>
-      <Input
-        type="text"
-        {...register("value_title")}
-        name="value_title"
-        id="value_title"
-      />
-    </div>
-    <div className="py-4">
-      <Label htmlFor="value_des">Value Description</Label>
-      <Input
-        type="text"
-        {...register("value_des")}
-        name="value_des"
-        id="value_des"
-      />
-    </div>
-    <div className="py-4">
-      <Label htmlFor="value_logo">Value Logo</Label>
-      <Input
-        type="file"
-        {...register("value_logo")}
-        name="value_logo"
-        id="value_logo"
-      />
-    </div> */}
             </div>
             <Button
               type="submit"

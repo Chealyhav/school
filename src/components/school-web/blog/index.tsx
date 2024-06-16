@@ -1,4 +1,4 @@
-import { API_URL } from "@/App";
+import { API_URL } from "@/api/url";
 import { useList } from "@refinedev/core";
 
 export const CardBlog:React.FC = () =>{

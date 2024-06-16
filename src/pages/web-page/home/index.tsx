@@ -1,11 +1,16 @@
-import { AboutUs } from "@/components/school-web/about/about-us";
+// import { AboutUs } from "@/components/school-web/about/about-us";
 import { ClassesCard } from "@/components/school-web/classes/classes-card";
 import { BannerHome } from "@/components/school-web/home/banner";
 import { Title } from "@/components/school-web/title";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { useList, useTranslate } from "@refinedev/core";
 import { Link } from "react-router-dom";
 export const HomePage: React.FC = () => {
+  const translate = useTranslate();
+  const { data, error, isError, isLoading  } = useList({
+    resource: "bannerhome",
+  });
   return (
     <div className="w-full pt-12 ">
       <BannerHome />
@@ -18,6 +23,7 @@ export const HomePage: React.FC = () => {
         
         </Button>
       </div>
+
       <div className="py-4 container">
         <Title
           title="Who we are"
@@ -25,7 +31,7 @@ export const HomePage: React.FC = () => {
           des="Well come to Techedu come with us, we also teach children about the basic values of human beings as honesty, kindness, generosity, courage, freedom, equality and respect. Learn to celebrate diversity in a spirit of understanding and tolerance and develop a positive regard and awareness of other people. They are taught the values and responsibilities needed to become active members of the community, tolerance and develop something which the modern world is desperate for norem ipsum dolor sit amet desperate."
         />
         <div className="py-4">
-          <AboutUs />
+          {/* <AboutUs /> */}
         </div>
 
         <div className="py-4">

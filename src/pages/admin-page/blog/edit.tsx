@@ -3,17 +3,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { BannerHomeProps } from "@/interface/home";
-import { useUpdate } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
 import { FieldValues } from "react-hook-form";
-import { Link } from "react-router-dom";
-interface EditBannerHomeProps {
-  id: string;
-  // isopen: boolean;
-  // setisopen: (isOpen: boolean) => void;
+import { Link, useParams } from "react-router-dom";
+interface EditBlogProps {
+  id?: string;
 }
-export const EditBlog: React.FC<EditBannerHomeProps> = ({ id }) => {
-  const { mutate } = useUpdate();
+export const EditBlog: React.FC<EditBlogProps> = ({ id }) => {
+  const { id: paramId } = useParams<{ id: string }>();
+    const userId = id || paramId;
   const {
     register,
     handleSubmit,
@@ -24,7 +22,7 @@ export const EditBlog: React.FC<EditBannerHomeProps> = ({ id }) => {
     refineCoreProps: {
       resource: "blog",
       action: "edit",
-      id: id,
+      id: userId,
     },
   });
   const onSubmit = async (data: FieldValues) => {

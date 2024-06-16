@@ -1,4 +1,4 @@
-import { API_URL } from "@/App";
+
 import { Button } from "@/components/ui/button";
 import { Delete } from "@/components/ui/delete";
 import { DeleteDialog } from "@/components/ui/delete-dialog";
@@ -16,6 +16,7 @@ import { useState } from "react";
 import { Link, useNavigation } from "react-router-dom";
 import { CreateAbout } from "./create";
 import { EditAbout } from "./edit";
+import { API_URL } from "@/api/url";
 
 export const ListAbout: React.FC = () => {
   const {

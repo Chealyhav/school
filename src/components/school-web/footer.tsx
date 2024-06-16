@@ -50,14 +50,14 @@ export const Footer: React.FC = () => {
           <div className="">
             
           </div>
-          <iframe
+          {/* <iframe
             className="w-full h-1/2"
             src={data?.data[0].map || ""}
             loading="lazy"
-          ></iframe>
+          ></iframe> */}
         </div>
       </div>
-      <div className="w-full h-0.5 bg-slate-600 my-8"></div>
+      <div className="w-full h-0.5 bg-slate-600 my-2"></div>
 
       <div className="text-center">
         © 2017 LYHAV INTERACTIVE, ALL RIGHTS RESERVED

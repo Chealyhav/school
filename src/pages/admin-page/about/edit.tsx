@@ -1,4 +1,4 @@
-import { API_URL } from "@/App";
+import { API_URL } from "@/api/url";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,10 +17,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Link } from "react-router-dom";
-interface EditBannerHomeProps {
-  id: string;
+interface EditAboutProps {
+  id?: string;
 }
-export const EditAbout: React.FC<EditBannerHomeProps> = ({ id }) => {
+export const EditAbout: React.FC<EditAboutProps> = ({ id }) => {
   const {
     register,
     handleSubmit,

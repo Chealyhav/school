@@ -4,14 +4,20 @@
         "bannerhome",
         "Chea",
         "Contactpage",
+        "dashorad",
         "Downmenu",
         "isopen",
         "Kbar",
+        "Lngs",
         "Lyhav",
         "noto",
         "refinedev",
         "setisopen",
         "Swiper",
-        "toastify"
+        "Teachercolumns",
+        "toastify",
+        "totalclasses",
+        "totalparent",
+        "totalsubjects"
     ]
 }

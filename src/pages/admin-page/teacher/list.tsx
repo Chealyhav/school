@@ -1,183 +1,196 @@
-import { API_URL } from "@/App";
-import { Button } from "@/components/ui/button";
-import { DeleteDialog } from "@/components/ui/delete-dialog";
-import { BannerHomeProps } from "@/interface/home";
-import { useDelete, useList, useTable, useUpdate } from "@refinedev/core";
 import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  Edit,
-  Trash2Icon,
-} from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 
-export const ListTeacher: React.FC = () => {
-  const {
-    tableQueryResult,
-    pageCount,
-    pageSize,
-    current,
-    setCurrent,
-    setFilters,
-    setPageSize,
-  } = useTable<BannerHomeProps>({
-    resource: "bannerhome",
-    sorters: {
-      initial: [
-        {
-          field: "date_created",
-          order: "desc",
-        },
-      ],
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
+// import { ThemeToggle } from "@/components/ThemeToggle";
+// import { downloadToExcel } from "@/lib/xlsx";
+
+
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+}
+
+export function ListTable<TData, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
     },
   });
-
-  const { mutate } = useDelete();
-
-  const hasNext = current < pageCount;
-  const hasPrev = current > 1;
-  const data = tableQueryResult?.data?.data ?? [];
-  const [activePopup, setActivePopup] = useState(false);
-  const [activeId, setActiveId] = useState<string | number>(0);
-
-  const [deletePopup, setDeletePopup] = useState(false);
-  const [deleteId, setDeleteId] = useState<string | number>(0);
-
-  const handleEditButtonClick = (id: string) => {
-    // setActiveId(id);
-    // setActivePopup(true);
-    mutate({
-      resource: "bannerhome",
-      id: id,
-    });
-  };
-
-  const deleteCategory = (id: string) => {
-    // setDeleteId(id);
-    // setDeletePopup(true);
-    mutate({
-      resource: "bannerhome",
-      id: id,
-    });
-  };
   return (
-    <div className="">
-      <h1 className="text-xl font-semibold">Teacher Page</h1>
-      <div className="">
-      <Button className="left-0 right-1">
-        <Link to="/bannerhome/create">Create</Link>
-      </Button>
-      <div className="h-1 w-full bg-slate-600 rounded-full mt-4"></div>
-      <table className="w-full h-full text-center">
-        <thead>
-          <tr className=" border-gray-400 border-b-2 ">
-            <th className="py-4">Title</th>
-            <th>Background</th>
-            <th>Subtitle</th>
-            <th>Description</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((x) => (
-            <tr key={x.id} className=" border-gray-400 border-b-2">
-              <td className="py-2">{x.title}</td>
-              <td className="py-2">
-                <img
-                  src={`${API_URL}${x.background}`}
-                  alt={x.title}
-                  className="size-16 rounded-full object-cover mx-auto"
-                />
-              </td>
-              <td>{x.subtitle}</td>
-              <td>{x.des}</td>
+    <div>
+      <div className="flex justify-between"><h1>Students</h1> <Link to="/teacher/create"><Button>Add</Button></Link></div>
+      <div className="flex items-center justify-between py-4">
+        <Input
+          placeholder="Filter First names"
+          value={
+            (table.getColumn("firstName")?.getFilterValue() as string) || ""
+          }
+          onChange={(e) => {
+            table.getColumn("firstName")?.setFilterValue(e.target.value);
+          }}
+          className="max-w-sm"
+        />
 
-              <td className="">
-                <div className="flex space-x-2 ">
-                  {/* <button onClick={() => handleEditButtonClick(x.id)}>
-                    <Edit size={24} color="red" />
-                    <Link to="/bannerhome/edit"></Link>
-                  </button> */}
-                  <Link  to={`/bannerhome/edit/${x.id}`}><Edit size={24} color="red" /></Link>
-                  <button>
-                    <DeleteDialog
-                      resource={"bannerhome"}
-                      id={x.id as any}
-                      message={
-                        "are you sure you want to delete from banner home page?"
-                      }
-                    />
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        {/* <Button onClick={() => downloadToExcel()} className="ml-4">
+          Export to Excel
+        </Button> */}
+        {/* <ThemeToggle className="ml-4" /> */}
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button variant="outline" className="ml-4">
+              Columns
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value: boolean) => {
+                      column.toggleVisibility(!!value);
+                    }}
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-      
-{/* 
-      <div className="flex justify-center space-x-2 py-4">
-        <div className="flex items-center space-x-2">
-          <button
-            className="flex items-center px-4  rounded-full bg-red-600 "
-            onClick={() => setCurrent(1)}
-            disabled={!hasPrev}
-          >
-            <ChevronsLeft size={24} />
-          </button>
-          <button
-            className="flex items-center  px-4   rounded-full  bg-red-600 "
-            onClick={() => setCurrent((prev) => prev - 1)}
-            disabled={!hasPrev}
-          >
-            <ChevronLeft size={24} />
-          </button>
-          <span className="px-4 py-1 max-sm:hidden">
-            Page{" "}
-            <strong>
-              {current} of {pageCount}
-            </strong>
-          </span>
-          <button
-            className="flex items-center px-4  rounded-full bg-red-600 "
-            onClick={() => setCurrent((prev) => prev + 1)}
-            disabled={!hasNext}
-          >
-            <ChevronRight size={24} />
-          </button>
-          <button
-            className="flex items-center px-4 rounded-full bg-red-600 "
-            onClick={() => setCurrent(pageCount)}
-            disabled={!hasNext}
-          >
-            <ChevronsRight size={24} />
-          </button>
-        </div>
-        <div className="max-sm:hidden">
-          <select
-            className="px-4 py-2  rounded-full "
-            value={pageSize}
-            onChange={(e) => {
-              const value = e.target.value ? Number(e.target.value) : 10;
-              setPageSize(value);
-            }}
-          >
-            {[10, 20, 30, 40, 50].map((size) => (
-              <option
-                key={size}
-                value={size}
-                className="hover:bg-white text-black"
-              >
-                Show {size}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div> */}
+
+      {/* table */}
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => {
+              return (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id}>
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                      </TableHead>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableHeader>
+
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow className="text-center">
+                <TableCell >No results</TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      {/* pagination */}
+      <div className="flex items-center justify-start space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            table.previousPage();
+          }}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            table.nextPage();
+          }}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
+      </div>
+      <div className="flex-1 text-sm text-muted-foreground">
+        {table.getFilteredSelectedRowModel().rows.length} of{" "}
+        {table.getFilteredRowModel().rows.length} row(s) selected
+      </div>
     </div>
   );
-};
+}
+
+export default ListTable;

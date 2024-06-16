@@ -6,14 +6,14 @@ import { BannerHomeProps } from "@/interface/home";
 import { useUpdate } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
 import { FieldValues } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 interface EditBannerHomeProps {
-  id: string;
-  // isopen: boolean;
-  // setisopen: (isOpen: boolean) => void;
+  id?: string;
+
 }
 export const EditContact: React.FC<EditBannerHomeProps> = ({ id }) => {
-  const { mutate } = useUpdate();
+  const { id: paramId } = useParams<{ id: string }>();
+  const userId = id || paramId;
   const {
     register,
     handleSubmit,
@@ -24,7 +24,7 @@ export const EditContact: React.FC<EditBannerHomeProps> = ({ id }) => {
     refineCoreProps: {
       resource: "contact",
       action: "edit",
-      id: id,
+      id: userId,
     },
   });
   const onSubmit = async (data: FieldValues) => {
